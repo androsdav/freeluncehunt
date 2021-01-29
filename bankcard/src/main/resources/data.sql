@@ -90,6 +90,15 @@ INSERT INTO transport (name, price, date_create, type_transport_id) VALUES (
   CURRENT_DATE,
   '2'
 );
+INSERT INTO users(login, password) VALUES ('Oliver', '123');
+INSERT INTO users(login, password) VALUES ('Oscar', '123');
+INSERT INTO users(login, password) VALUES ('James', '123');
+INSERT INTO roles (name) VALUES ('ROLE_USER');
+INSERT INTO roles (name) VALUES ('ROLE_ADMIN');
+INSERT INTO users_roles(user_id, role_id) VALUES (1, 1);
+INSERT INTO users_roles(user_id, role_id) VALUES (2, 1);
+INSERT INTO users_roles(user_id, role_id) VALUES (3, 1);
+
 
 -- get all transport (console query SQL)
 /*

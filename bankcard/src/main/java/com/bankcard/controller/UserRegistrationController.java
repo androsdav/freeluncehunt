@@ -1,7 +1,7 @@
-package com.adidyk.controller;
+package com.bankcard.controller;
 
-import com.adidyk.model.User;
-import com.adidyk.service.UserService;
+import com.bankcard.model.User;
+import com.bankcard.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,15 +49,19 @@ public class UserRegistrationController {
      */
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registration(@ModelAttribute("user") @Valid User user, BindingResult result, Model model) {
+        System.out.println("user registration:" + user);
         if (result.hasErrors()) {
+            System.out.println("result has error");
             return "registration";
         }
         if (!user.getPassword().equals(user.getPasswordConfirm())) {
             model.addAttribute("passwordError", "passwords do not match");
+            System.out.println("password do not match");
             return "registration";
         }
         if (!this.userService.saveUser(user)) {
             model.addAttribute("userLoginError", "user with same name already exists");
+            System.out.println("user with same name");
             return "registration";
         }
         model.addAttribute("userSave", "new user was added");

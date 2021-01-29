@@ -1,6 +1,6 @@
-package com.adidyk.repository;
+package com.bankcard.repository;
 
-import com.adidyk.model.User;
+import com.bankcard.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,9 +1,9 @@
-package com.adidyk.service;
+package com.bankcard.service;
 
-import com.adidyk.model.Role;
-import com.adidyk.model.User;
-import com.adidyk.repository.RoleRepository;
-import com.adidyk.repository.UserRepository;
+import com.bankcard.model.Role;
+import com.bankcard.model.User;
+import com.bankcard.repository.RoleRepository;
+import com.bankcard.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -55,6 +55,8 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("user not found");
         }
+        System.out.println();
+        System.out.println("user: " + user);
         return user;
     }
 
@@ -67,32 +69,37 @@ public class UserService implements UserDetailsService {
         if (userDB != null) {
             return false;
         }
-        List<Role> roles = new ArrayList<>() ;
+        List<Role> roles = new ArrayList<>();
         roles.add(this.roleRepository.findByName("ROLE_USER"));
         user.setRoles(roles);
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         this.userRepository.save(user);
+        System.out.println("user save: " + user);
         return true;
     }
 
+    /*
     /**
      * deleteUserById - delete by id.
      * @param user - user.
      */
+    /*
     public boolean deleteUserById(User user) {
         if (this.userRepository.findById(user.getId()).isPresent()) {
             this.userRepository.deleteById(user.getId());
             return true;
         }
         return false;
-    }
+    }*/
 
+    /*
     /**
      * findAllUser - returns all users.
      * @return - returns all users.
      */
+    /*
     public List<User> findAllUser() {
         return this.userRepository.findAll();
-    }
+    }*/
 
 }

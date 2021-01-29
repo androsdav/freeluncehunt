@@ -1,4 +1,4 @@
-package com.adidyk.model;
+package com.bankcard.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;

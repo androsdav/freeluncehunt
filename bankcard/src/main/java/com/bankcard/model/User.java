@@ -1,4 +1,4 @@
-package com.adidyk.model;
+package com.bankcard.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -48,11 +48,31 @@ public class User implements UserDetails {
     private String passwordConfirm;
 
     /**
+     * @param name - user name.
+     */
+    @Column(name = "name")
+    //@NotBlank(message = "name is mandatory")
+    private String name;
+
+    /**
+     * @param surname - user surname.
+     */
+    @Column(name = "surname")
+    //@NotBlank(message = "surname is mandatory")
+    private String surname;
+
+    /**
+     * @param money - user money.
+     */
+    //@Column(name = "money")
+    private Float money;
+
+    /**
      * @param roles - sets roles.
      */
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name="user_role",
+            name="users_roles",
             joinColumns={@JoinColumn(name="user_id", referencedColumnName="id")},
             inverseJoinColumns={@JoinColumn(name="role_id", referencedColumnName="id")})
     private List<Role> roles = new ArrayList<>();
@@ -92,6 +112,7 @@ public class User implements UserDetails {
         this.login = login;
         this.password = password;
     }
+
 
     /**
      * getId - returns user id.
@@ -151,11 +172,59 @@ public class User implements UserDetails {
     }
 
     /**
-     *  setPasswordConfirm - sets apssword confirm.
+     *  setPasswordConfirm - sets password confirm.
      * @param passwordConfirm - user password confirm.
      */
     public void setPasswordConfirm(String passwordConfirm) {
         this.passwordConfirm = passwordConfirm;
+    }
+
+    /**
+     * getName - returns user name.
+     * @return - returns user name.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * setName - sets user name.
+     * @param name - user name.
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * getSurName - returns user surname.
+     * @return - returns user surname.
+     */
+    public String getSurname() {
+        return surname;
+    }
+
+    /**
+     * setSurname - sets user surname.
+     * @param surname - user surname.
+     */
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    /**
+     * getMoney - returns user money.
+     * @return - returns user money.
+     */
+    public Float getMoney() {
+        return money;
+    }
+
+    /**
+     * setMoney - sets user money.
+     * @param money - muser money.
+     */
+    public void setMoney(Float money) {
+        this.money = money;
     }
 
     /**
@@ -242,6 +311,9 @@ public class User implements UserDetails {
                 Objects.equals(login, user.login) &&
                 Objects.equals(password, user.password) &&
                 Objects.equals(passwordConfirm, user.passwordConfirm) &&
+                Objects.equals(name, user.name) &&
+                Objects.equals(surname, user.surname) &&
+                Objects.equals(money, user.money) &&
                 Objects.equals(roles, user.roles);
     }
 
@@ -251,8 +323,9 @@ public class User implements UserDetails {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password);
+        return Objects.hash(id, login, password, passwordConfirm, name, surname, money, roles);
     }
+
 
     /**
      * toString - returns string format.
@@ -264,7 +337,11 @@ public class User implements UserDetails {
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
-                ", roles='" + roles + '\'' +
+                ", passwordConfirm='" + passwordConfirm + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", money='" + money + '\'' +
+                ", roles=" + roles +
                 '}';
     }
 

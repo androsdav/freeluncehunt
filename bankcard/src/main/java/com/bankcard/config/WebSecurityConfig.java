@@ -1,6 +1,6 @@
-package com.adidyk.config;
+package com.bankcard.config;
 
-import com.adidyk.service.UserService;
+import com.bankcard.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                     // access is allowed to all users
-                    .antMatchers("/", "/index", "/home", "/css/**", "/js/**", "/images/**", "/public/**", "/h2/**", "/bankcard/**").permitAll()
+                    .antMatchers("/", "/index", "/home", "/css/**", "/js/**", "/images/**", "/public/**").permitAll()
                     // access is allowed only not registration users
                     .antMatchers("/registration").not().fullyAuthenticated()
                     // access is allowed only admin
