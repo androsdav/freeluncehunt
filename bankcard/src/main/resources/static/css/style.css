@@ -55,7 +55,8 @@ hr {
 }
 
 .link {
-    border: 1px solid #dea093; /* Рамка */
+    border: 2px solid #4955de; /* Рамка */
+    solid-color: #aa0000;
     display: inline-block;
     padding: 5px 15px; /* Поля */
     text-decoration: none; /* Убираем подчёркивание */

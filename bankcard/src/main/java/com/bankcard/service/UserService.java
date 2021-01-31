@@ -78,6 +78,20 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
+    public boolean updateUser(User user) {
+        User userDB = this.userRepository.findByLogin(user.getLogin());
+        userDB.setName(user.getName());
+        userDB.setSurname(user.getSurname());
+        userDB.setMoney(user.getMoney());
+        this.userRepository.save(userDB);
+        return true;
+    }
+
+    public User findUserByLogin(User user) {
+        return this.userRepository.findByLoginAndLoadAllAndCards(user.getLogin());
+    }
+
+
     /*
     /**
      * deleteUserById - delete by id.

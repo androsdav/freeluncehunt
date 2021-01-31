@@ -1,5 +1,7 @@
 package com.bankcard.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
@@ -28,7 +30,7 @@ public class User implements UserDetails {
      * @param login - user login.
      */
     @Column(name = "login")
-    @NotBlank(message = "login is mandatory")
+    //@NotBlank(message = "login is mandatory")
     @Size(min = 3, message = "login must contain at least 3 characters")
     private String login;
 
@@ -36,7 +38,7 @@ public class User implements UserDetails {
      * @param password - user password.
      */
     @Column(name = "password")
-    @NotBlank(message = "password is mandatory")
+    //@NotBlank(message = "password is mandatory")
     @Size(min = 3, message = "password must contain at least 3 characters")
     private String password;
 
@@ -44,28 +46,34 @@ public class User implements UserDetails {
      * @param passwordConfirm - password confirm.
      */
     @Transient
-    @NotBlank(message = "passwordConfirm is mandatory")
+    //@NotBlank(message = "passwordConfirm is mandatory")
     private String passwordConfirm;
 
     /**
      * @param name - user name.
      */
-    @Column(name = "name")
+    @Column(name = "name", columnDefinition = "default 'name'")
     //@NotBlank(message = "name is mandatory")
     private String name;
 
     /**
      * @param surname - user surname.
      */
-    @Column(name = "surname")
+    @Column(name = "surname", columnDefinition = "default 'surname")
     //@NotBlank(message = "surname is mandatory")
     private String surname;
 
     /**
      * @param money - user money.
      */
-    //@Column(name = "money")
+    @Column(name = "money", columnDefinition = "default 0")
     private Float money;
+
+    /**
+     * @param card - card.
+     */
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Card> cards = new ArrayList<>();
 
     /**
      * @param roles - sets roles.
@@ -113,6 +121,9 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    public User(String login) {
+        this.login = login;
+    }
 
     /**
      * getId - returns user id.
@@ -221,10 +232,27 @@ public class User implements UserDetails {
 
     /**
      * setMoney - sets user money.
-     * @param money - muser money.
+     * @param money - user money.
      */
     public void setMoney(Float money) {
         this.money = money;
+    }
+
+
+    /**
+     * getCard - returns list card.
+     * @return - returns list card.
+     */
+    public List<Card> getCards() {
+        return cards;
+    }
+
+    /**
+     * setCard - sets card.
+     * @param cards - card.
+     */
+    public void setCards(List<Card> cards) {
+        this.cards = cards;
     }
 
     /**
@@ -314,7 +342,8 @@ public class User implements UserDetails {
                 Objects.equals(name, user.name) &&
                 Objects.equals(surname, user.surname) &&
                 Objects.equals(money, user.money) &&
-                Objects.equals(roles, user.roles);
+                Objects.equals(roles, user.roles) &&
+                Objects.equals(cards, user.cards);
     }
 
     /**
@@ -323,7 +352,7 @@ public class User implements UserDetails {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password, passwordConfirm, name, surname, money, roles);
+        return Objects.hash(id, login, password, passwordConfirm, name, surname, money, roles, cards);
     }
 
 
@@ -342,6 +371,7 @@ public class User implements UserDetails {
                 ", surname='" + surname + '\'' +
                 ", money='" + money + '\'' +
                 ", roles=" + roles +
+                //", cards=" + cards +
                 '}';
     }
 

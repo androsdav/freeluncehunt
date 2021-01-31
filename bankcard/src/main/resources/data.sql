@@ -90,25 +90,21 @@ INSERT INTO transport (name, price, date_create, type_transport_id) VALUES (
   CURRENT_DATE,
   '2'
 );
-INSERT INTO users(login, password) VALUES ('Oliver', '123');
-INSERT INTO users(login, password) VALUES ('Oscar', '123');
-INSERT INTO users(login, password) VALUES ('James', '123');
+-- insert three users (password = 'user')
+INSERT INTO users(login, password) VALUES ('user1', '$2a$10$0DotfQA1EPIkuL15D8EH4eFVFdNnYsU7M85FTRQLv0NILFYmvC8Oa');
+INSERT INTO users(login, password) VALUES ('user2', '$2a$10$0DotfQA1EPIkuL15D8EH4eFVFdNnYsU7M85FTRQLv0NILFYmvC8Oa');
+INSERT INTO users(login, password) VALUES ('user3', '$2a$10$0DotfQA1EPIkuL15D8EH4eFVFdNnYsU7M85FTRQLv0NILFYmvC8Oa');
+-- insert two roles
 INSERT INTO roles (name) VALUES ('ROLE_USER');
 INSERT INTO roles (name) VALUES ('ROLE_ADMIN');
+-- insert role to all users
 INSERT INTO users_roles(user_id, role_id) VALUES (1, 1);
 INSERT INTO users_roles(user_id, role_id) VALUES (2, 1);
 INSERT INTO users_roles(user_id, role_id) VALUES (3, 1);
-
-
--- get all transport (console query SQL)
-/*
-SELECT T.ID, T.NAME, T.PRICE, T.DATE_CREATE, TT.NAME "TYPE TRANSPORT" FROM TRANSPORT  AS T
-INNER JOIN TYPE_TRANSPORT AS TT ON T.TYPE_TRANSPORT_ID = TT.ID
-*/
-
--- get all transport by type motorcycle and price motorcycle > 1000 (console query SQL)
-/*
-SELECT T.ID, T.NAME, T.PRICE, T.DATE_CREATE, TT.NAME "TYPE TRANSPORT" FROM TRANSPORT  AS T
-INNER JOIN TYPE_TRANSPORT AS TT ON T.TYPE_TRANSPORT_ID = TT.ID
-WHERE (TT.NAME = 'motorcycle' AND T.PRICE >1000)
-*/
+-- insert card to all users
+INSERT INTO cards(name, money, user_id) VALUES ('visa', 100, 1);
+INSERT INTO cards(name, money, user_id) VALUES ('mastercard', 50, 1);
+INSERT INTO cards(name, money, user_id) VALUES ('visa', 100, 2);
+INSERT INTO cards(name, money, user_id) VALUES ('mastercard', 50, 2);
+INSERT INTO cards(name, money, user_id) VALUES ('visa', 100, 3);
+INSERT INTO cards(name, money, user_id) VALUES ('mastercard', 50, 3);

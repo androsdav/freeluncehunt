@@ -20,7 +20,15 @@ CREATE TABLE users (
   password VARCHAR(100) NOT NULL,
   name VARCHAR(25) DEFAULT 'name',
   surname VARCHAR(25) DEFAULT 'surname',
-  money FLOAT(2) DEFAULT 0 CONSTRAINT positive_money CHECK (money >= 0)
+  money FLOAT(2) DEFAULT 0 CONSTRAINT positive_money CHECK (money >= 0),
+);
+
+-- create table cards
+CREATE TABLE cards(
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(25),
+  money FLOAT(2) DEFAULT 0 CONSTRAINT positive_money CHECK (money >= 0),
+  user_id INT REFERENCES users(id)
 );
 
 -- create table roles
