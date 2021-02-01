@@ -14,18 +14,6 @@
             <form action="#" th:action="@{/saveCard}" method="post">
                 <fieldset>
                     <h3>Add new card</h3>
-                    <!--
-                    <div th:if="${#fields.hasErrors('name')}">
-                        <div class="alert alert-danger">
-                            <span th:errors="${card.name}"></span>
-                        </div>
-                    </div>
-                    <div th:if="${#fields.hasErrors('money')}">
-                        <div class="alert alert-danger">
-                            <span th:errors="${card.money}"></span>
-                        </div>
-                    </div>
-                    -->
                     <div hidden class="form-group">
                         <input class="form-control" type="text" name="userLogin" th:value = "${user.login}"
                                placeholder = "name" required="true" autofocus="true"/>
@@ -47,6 +35,11 @@
                     </div>
                 </fieldset>
             </form>
+            <div>
+                <div style="padding-top: 30px">
+                    <a class="link" th:href="@{/}"> &lArr; back</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>

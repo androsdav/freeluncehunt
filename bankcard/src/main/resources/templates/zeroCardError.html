@@ -11,23 +11,12 @@
 <div class="container">
     <div class="row" style="margin-top:20px">
         <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-3">
-            <h3>Bank cards</h3>
-            <table class="table table-striped">
-                <thead>
-                <tr>
-                    <th>id</th>
-                    <th>name</th>
-                    <th>money</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="card : ${cards}">
-                    <td th:text="${card.id}"></td>
-                    <td th:text="${card.name}"></td>
-                    <td th:text="${card.money}"></td>
-                </tr>
-                </tbody>
-            </table>
+            <h3>Error</h3>
+            <div th:if="${zeroCardError}">
+                <div class="alert alert-danger">
+                    <span th:text="${zeroCardError}"></span>
+                </div>
+            </div>
             <div>
                 <div style="padding-top: 30px">
                     <a class="link" th:href="@{/}"> &lArr; back</a>

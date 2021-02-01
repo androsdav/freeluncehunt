@@ -4,12 +4,9 @@ import com.bankcard.model.Card;
 import com.bankcard.model.User;
 import com.bankcard.service.CardService;
 import com.bankcard.service.UserService;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Controller
@@ -51,9 +48,13 @@ public class CardController {
     }
 
     @RequestMapping(value = "/transferMoneyFromUserToCardForm/{login}", method = RequestMethod.GET)
-    public String transferMoneyFromUserToCard111(@PathVariable("login") String login, Model model) {
+    public String transferMoneyFromUserToCardForm(@PathVariable("login") String login, Model model) {
         User userDB = this.userService.findUserByLogin(new User(login));
         List<Card> cards = this.cardService.findCardByUser(userDB);
+        if (cards.size() == 0) {
+            model.addAttribute("zeroCardError", "you don't have any cards");
+            return "zeroCardError";
+        }
         model.addAttribute( "cards", cards);
         model.addAttribute("user", userDB);
         return "transferMoneyFromUserToCard";
@@ -63,29 +64,55 @@ public class CardController {
     public String transferMoneyFromUserToCard(@RequestParam("userLogin") String userLogin,
                                               @RequestParam("cardName") String cardName,
                                               @RequestParam("transferMoney") Float transferMoney, Model model) {
-
-        System.out.println();
-        System.out.println("user login: " + userLogin);
-        System.out.println();
-        System.out.println("Card: " + cardName);
-        System.out.println();
-        System.out.println("Card: " + transferMoney);
-
-
-
-
         User userDB = this.userService.findUserByLogin(new User(userLogin));
-        Card cardDB = this.cardService.findCardByUseAndName(userDB, new Card(cardName));
         if (userDB.getMoney() < transferMoney) {
-            model.addAttribute("notEnoughMoney", "not enough money");
-            return this.transferMoneyFromUserToCardForm(userLogin, );
+            model.addAttribute("notEnoughMoneyError", "not enough money");
+            return this.transferMoneyFromUserToCardForm(userLogin, model);
         }
+        Card cardDB = this.cardService.findCardByUseAndName(userDB, new Card(cardName));
         userDB.setMoney(userDB.getMoney() - transferMoney);
         cardDB.setMoney(cardDB.getMoney() + transferMoney);
-        cardDB.setUser(userDB);
         this.cardService.save(cardDB);
+        return "index";
+    }
 
+    @RequestMapping(value = "/transferMoneyFromCardToCardForm/{login}", method = RequestMethod.GET)
+    public String transferMoneyFromCardToCard(@PathVariable("login") String login, Model model) {
+        User userDB = this.userService.findUserByLogin(new User(login));
+        List<Card> cards = this.cardService.findCardByUser(userDB);
+        if (cards.size() == 0) {
+            model.addAttribute("zeroCardError", "you don't have any cards");
+            return "zeroCardError";
+        }
+        model.addAttribute( "cards", cards);
+        model.addAttribute("user", userDB);
+        return "transferMoneyFromCardToCard";
+    }
 
+    @RequestMapping(value = "/transferMoneyFromCardToCard", method = RequestMethod.POST)
+    public String transferMoneyFromCardToCard(@RequestParam("userLogin") String userLogin,
+                                              @RequestParam("fromCardName") String fromCardName,
+                                              @RequestParam("toCardName") String toCardName,
+                                              @RequestParam("transferMoney") Float transferMoney, Model model) {
+        User userDB = this.userService.findUserByLogin(new User(userLogin));
+        if (this.cardService.findCardByUser(userDB).size() == 1) {
+            model.addAttribute("oneCardError", "you only have one card");
+            return this.transferMoneyFromCardToCard(userLogin, model);
+        }
+        if (fromCardName.equals(toCardName)) {
+            model.addAttribute("cardsSame", "cards are same");
+            return this.transferMoneyFromCardToCard(userLogin, model);
+        }
+        Card fromCardDB = this.cardService.findCardByUseAndName(userDB, new Card(fromCardName));
+        if (fromCardDB.getMoney() < transferMoney) {
+            model.addAttribute("notEnoughMoneyError", "not enough money");
+            return this.transferMoneyFromCardToCard(userLogin, model);
+        }
+        Card toCardDB = this.cardService.findCardByUseAndName(userDB, new Card(toCardName));
+        fromCardDB.setMoney(fromCardDB.getMoney() - transferMoney);
+        toCardDB.setMoney(toCardDB.getMoney() + transferMoney);
+        this.cardService.save(fromCardDB);
+        this.cardService.save(toCardDB);
         return "index";
     }
 
