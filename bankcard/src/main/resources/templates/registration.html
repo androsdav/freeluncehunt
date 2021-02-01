@@ -24,7 +24,7 @@
                             <span th:errors="${user.password}"></span>
                         </div>
                     </div>
-                    <div th:if="${#fields.hasErrors('password')}">
+                    <div th:if="${#fields.hasErrors('passwordConfirm')}">
                         <div class="alert alert-danger">
                             <span th:errors="${user.passwordConfirm}"></span>
                         </div>

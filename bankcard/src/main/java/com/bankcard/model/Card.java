@@ -1,5 +1,7 @@
 package com.bankcard.model;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Objects;

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:th = "http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring Boot Security</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>name</th>
+        <th>money</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="card : ${cards}">
+        <td th:text="${card.id}"></td>
+        <td th:text="${card.name}"></td>
+        <td th:text="${card.money}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

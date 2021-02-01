@@ -91,7 +91,13 @@ INSERT INTO transport (name, price, date_create, type_transport_id) VALUES (
   '2'
 );
 -- insert three users (password = 'user')
-INSERT INTO users(login, password) VALUES ('user1', '$2a$10$0DotfQA1EPIkuL15D8EH4eFVFdNnYsU7M85FTRQLv0NILFYmvC8Oa');
+INSERT INTO users(login, password, name, surname, money) VALUES (
+'user1',
+'$2a$10$0DotfQA1EPIkuL15D8EH4eFVFdNnYsU7M85FTRQLv0NILFYmvC8Oa',
+'Andrey',
+'Ivan',
+1000
+);
 INSERT INTO users(login, password) VALUES ('user2', '$2a$10$0DotfQA1EPIkuL15D8EH4eFVFdNnYsU7M85FTRQLv0NILFYmvC8Oa');
 INSERT INTO users(login, password) VALUES ('user3', '$2a$10$0DotfQA1EPIkuL15D8EH4eFVFdNnYsU7M85FTRQLv0NILFYmvC8Oa');
 -- insert two roles

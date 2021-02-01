@@ -49,19 +49,19 @@ public class UserRegistrationController {
      */
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registration(@ModelAttribute("user") @Valid User user, BindingResult result, Model model) {
-        System.out.println("user registration:" + user);
+        //System.out.println("user registration:" + user);
         if (result.hasErrors()) {
-            System.out.println("result has error");
+           // System.out.println("result has error");
             return "registration";
         }
         if (!user.getPassword().equals(user.getPasswordConfirm())) {
             model.addAttribute("passwordError", "passwords do not match");
-            System.out.println("password do not match");
+            //System.out.println("password do not match");
             return "registration";
         }
         if (!this.userService.saveUser(user)) {
             model.addAttribute("userLoginError", "user with same name already exists");
-            System.out.println("user with same name");
+            //System.out.println("user with same name");
             return "registration";
         }
         model.addAttribute("userSave", "new user was added");

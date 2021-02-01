@@ -1,7 +1,9 @@
 package com.bankcard.service;
 
+import com.bankcard.model.Card;
 import com.bankcard.model.Role;
 import com.bankcard.model.User;
+import com.bankcard.repository.CardRepository;
 import com.bankcard.repository.RoleRepository;
 import com.bankcard.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,8 +57,6 @@ public class UserService implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException("user not found");
         }
-        System.out.println();
-        System.out.println("user: " + user);
         return user;
     }
 
@@ -88,32 +88,7 @@ public class UserService implements UserDetailsService {
     }
 
     public User findUserByLogin(User user) {
-        return this.userRepository.findByLoginAndLoadAllAndCards(user.getLogin());
+        return this.userRepository.findByLogin(user.getLogin());
     }
-
-
-    /*
-    /**
-     * deleteUserById - delete by id.
-     * @param user - user.
-     */
-    /*
-    public boolean deleteUserById(User user) {
-        if (this.userRepository.findById(user.getId()).isPresent()) {
-            this.userRepository.deleteById(user.getId());
-            return true;
-        }
-        return false;
-    }*/
-
-    /*
-    /**
-     * findAllUser - returns all users.
-     * @return - returns all users.
-     */
-    /*
-    public List<User> findAllUser() {
-        return this.userRepository.findAll();
-    }*/
 
 }

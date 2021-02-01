@@ -30,18 +30,13 @@ public class UserController {
 
     @RequestMapping(value = "/updateUser/{login}", method = RequestMethod.GET)
     public String updateUser(@PathVariable("login") String login, Model model) {
-        UserDetails user = this.userService.loadUserByUsername(login);
-        System.out.println();
-        System.out.println(user);
-        System.out.println();
+        User user = this.userService.findUserByLogin(new User(login));
         model.addAttribute( "user", user);
         return "updateUser";
     }
 
     @RequestMapping(value = "/updateUser/{login}", method = RequestMethod.POST)
     public String updateUser(@PathVariable("login") String login, User user, BindingResult result) {
-        System.out.println("result:" + result.toString());
-        System.out.println("user update: " + user);
         if (result.hasErrors()) {
             return "updateUser";
         }
@@ -51,9 +46,11 @@ public class UserController {
 
     @RequestMapping(value = "/userInfo/{login}", method = RequestMethod.GET)
     public String getUserByLogin(@PathVariable("login") String login, Model model) {
-        UserDetails user = this.userService.loadUserByUsername(login);
+        User user = this.userService.findUserByLogin(new User(login));
         model.addAttribute("user", user);
         return "userInfo";
     }
+
+
 
 }
