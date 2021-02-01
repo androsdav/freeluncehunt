@@ -8,10 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,20 +27,17 @@ public class CardController {
         this.cardService = cardService;
     }
 
-    @RequestMapping(value = "/saveCard/{login}", method = RequestMethod.GET)
-    public String saveCard(@PathVariable("login") String login, Model model, Card card) {
+    @RequestMapping(value = "/saveCardForm/{login}", method = RequestMethod.GET)
+    public String saveCardForm(@PathVariable("login") String login, Model model, Card card) {
         User userDB = this.userService.findUserByLogin(new User(login));
         model.addAttribute( "card", card);
         model.addAttribute("user", userDB);
         return "saveCard";
     }
 
-    @RequestMapping(value = "/saveCard/{login}", method = RequestMethod.POST)
-    public String saveCard(@PathVariable("login") String login, Card card, BindingResult result) {
-        if (result.hasErrors()) {
-            return "saveCard";
-        }
-        card.setUser(this.userService.findUserByLogin(new User(login)));
+    @RequestMapping(value = "/saveCard", method = RequestMethod.POST)
+    public String saveCard(@RequestParam("userLogin") String userLogin, Card card) {
+        card.setUser(this.userService.findUserByLogin(new User(userLogin)));
         this.cardService.save(card);
         return "index";
     }
@@ -57,18 +51,42 @@ public class CardController {
     }
 
     @RequestMapping(value = "/transferMoneyFromUserToCardForm/{login}", method = RequestMethod.GET)
-    public String transferMoneyFromUserToCard(@PathVariable("login") String login, Model model, Card card) {
+    public String transferMoneyFromUserToCard111(@PathVariable("login") String login, Model model) {
         User userDB = this.userService.findUserByLogin(new User(login));
-        model.addAttribute( "card", card);
+        List<Card> cards = this.cardService.findCardByUser(userDB);
+        model.addAttribute( "cards", cards);
         model.addAttribute("user", userDB);
         return "transferMoneyFromUserToCard";
     }
 
-    @RequestMapping(value = "/transferMoneyFromUserToCard/", method = RequestMethod.POST)
-    public String transferMoneyFromUserToCard(@RequestParam("login") String login,
-                                              @RequestParam("userLogin") Card card, BindingResult result) {
-        User userDB = this.userService.findUserByLogin(new User(login));
-        return "transferMoneyFromUserToCard";
+    @RequestMapping(value = "/transferMoneyFromUserToCard", method = RequestMethod.POST)
+    public String transferMoneyFromUserToCard(@RequestParam("userLogin") String userLogin,
+                                              @RequestParam("cardName") String cardName,
+                                              @RequestParam("transferMoney") Float transferMoney, Model model) {
+
+        System.out.println();
+        System.out.println("user login: " + userLogin);
+        System.out.println();
+        System.out.println("Card: " + cardName);
+        System.out.println();
+        System.out.println("Card: " + transferMoney);
+
+
+
+
+        User userDB = this.userService.findUserByLogin(new User(userLogin));
+        Card cardDB = this.cardService.findCardByUseAndName(userDB, new Card(cardName));
+        if (userDB.getMoney() < transferMoney) {
+            model.addAttribute("notEnoughMoney", "not enough money");
+            return this.transferMoneyFromUserToCardForm(userLogin, );
+        }
+        userDB.setMoney(userDB.getMoney() - transferMoney);
+        cardDB.setMoney(cardDB.getMoney() + transferMoney);
+        cardDB.setUser(userDB);
+        this.cardService.save(cardDB);
+
+
+        return "index";
     }
 
 }

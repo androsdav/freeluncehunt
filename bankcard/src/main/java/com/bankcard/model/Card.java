@@ -50,6 +50,11 @@ public class Card {
         this.user = user;
     }
 
+    public Card(String name) {
+        this.name = name;
+
+    }
+
     public int getId() {
         return id;
     }

@@ -5,7 +5,6 @@ import com.bankcard.model.User;
 import com.bankcard.repository.CardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -25,6 +24,11 @@ public class CardService {
 
     public List<Card> findCardByUser(User user) {
         return this.cardRepository.findCardByUser(user);
+    }
+
+    public Card findCardByUseAndName(User user, Card card) {
+       return  this.cardRepository.findCardByUserAndName(user, card.getName());
+
     }
 
 }
