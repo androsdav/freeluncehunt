@@ -7,16 +7,16 @@ import org.springframework.stereotype.Repository;
 /**
  * Interface RoleRepository used for access to data base.
  * @author Didyk Andrey (androsdav@gmail.com).
- * @since 03.02.2020.
+ * @since 01.02.2021.
  * @version 1.0.
  */
 @Repository
 public interface  RoleRepository extends JpaRepository<Role, Integer> {
 
     /**
-     * findByLogin - find role by name.
+     * findByNmae - finds role by name.
      * @param name - role name.
-     * @return - return true or false.
+     * @return - returns role.
      */
     Role findByName(String name);
 

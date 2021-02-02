@@ -1,18 +1,16 @@
 package com.bankcard.model;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.*;
 
 /**
- * Class User used for creates new object user with params: id, login, password.
+ * Class User used for creates new object user with params: id, login, password, passwordConfirm,
+ * name, surname, money.
  * @author Didyk Andrey (androsdav@gmail.com).
- * @since 27.01.2020.
+ * @since 01.02.2021.
  * @version 1.0.
  */
 @Entity
@@ -30,7 +28,6 @@ public class User implements UserDetails {
      * @param login - user login.
      */
     @Column(name = "login")
-    //@NotBlank(message = "login is mandatory")
     @Size(min = 3, message = "login must contain at least 3 characters")
     private String login;
 
@@ -38,29 +35,25 @@ public class User implements UserDetails {
      * @param password - user password.
      */
     @Column(name = "password")
-    //@NotBlank(message = "password is mandatory")
     @Size(min = 3, message = "password must contain at least 3 characters")
     private String password;
 
     /**
-     * @param passwordConfirm - password confirm.
+     * @param passwordConfirm - user password confirm.
      */
     @Transient
-    //@NotBlank(message = "passwordConfirm is mandatory")
     private String passwordConfirm;
 
     /**
      * @param name - user name.
      */
     @Column(name = "name", columnDefinition = "default 'name'")
-    //@NotBlank(message = "name is mandatory")
     private String name;
 
     /**
      * @param surname - user surname.
      */
     @Column(name = "surname", columnDefinition = "default 'surname")
-    //@NotBlank(message = "surname is mandatory")
     private String surname;
 
     /**
@@ -70,13 +63,13 @@ public class User implements UserDetails {
     private Float money;
 
     /**
-     * @param card - card.
+     * @param card - user bank list cards.
      */
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Card> cards = new ArrayList<>();
 
     /**
-     * @param roles - sets roles.
+     * @param roles - user roles.
      */
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -121,6 +114,10 @@ public class User implements UserDetails {
         this.password = password;
     }
 
+    /**
+     * User - constructor.
+     * @param login - user login.
+     */
     public User(String login) {
         this.login = login;
     }
@@ -238,18 +235,17 @@ public class User implements UserDetails {
         this.money = money;
     }
 
-
     /**
-     * getCard - returns list card.
-     * @return - returns list card.
+     * getCard - returns list cards.
+     * @return - returns list cards.
      */
     public List<Card> getCards() {
         return cards;
     }
 
     /**
-     * setCard - sets card.
-     * @param cards - card.
+     * setCard - sets list cards.
+     * @param cards - list cards.
      */
     public void setCards(List<Card> cards) {
         this.cards = cards;
@@ -265,7 +261,7 @@ public class User implements UserDetails {
 
     /**
      * setRole - sets role.
-     * @param roles - roles.
+     * @param roles - user roles.
      */
     public void setRoles(List<Role> roles) {
         this.roles = roles;
@@ -328,7 +324,7 @@ public class User implements UserDetails {
     /**
      * equals - returns boolean result.
      * @param o - object of class Object.
-     * @return - returns "true" if id, login, password, list role of user is same, and returns "false" - isn`t same.
+     * @return - returns "true" if id, login, password, list role, cards of user is same, and returns "false" - isn`t same.
      */
     @Override
     public boolean equals(Object o) {
@@ -355,7 +351,6 @@ public class User implements UserDetails {
         return Objects.hash(id, login, password, passwordConfirm, name, surname, money, roles, cards);
     }
 
-
     /**
      * toString - returns string format.
      * @return - returns all information for user.
@@ -371,7 +366,6 @@ public class User implements UserDetails {
                 ", surname='" + surname + '\'' +
                 ", money='" + money + '\'' +
                 ", roles=" + roles +
-                //", cards=" + cards +
                 '}';
     }
 

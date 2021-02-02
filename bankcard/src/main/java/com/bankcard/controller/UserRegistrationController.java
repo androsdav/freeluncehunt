@@ -11,11 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import javax.validation.Valid;
 
+/**
+ * Class UserRegistrationController used for controller with front end.
+ * @author Didyk Andrey (androsdav@gmail.com).
+ * @since 01.02.2021.
+ * @version 1.0.
+ */
 @Controller
 public class UserRegistrationController {
 
     /**
-     * @param userController - user controller.
+     * @param userService - user service..
      */
     private UserService userService;
 
@@ -29,10 +35,10 @@ public class UserRegistrationController {
     }
 
     /**
-     * registration - registration.
+     * registration - returns: link to templates registration.html, model object user.
      * @param model - model.
      * @param user - user.
-     * @return - return page registration.
+     * @return - return: link to templates registration.html, model object user.
      */
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String registration(Model model, User user) {
@@ -41,30 +47,27 @@ public class UserRegistrationController {
     }
 
     /**
-     * registration - registration.
+     * registration - gets user from registration.html, adds user to data base and returns start page index.html
+     * if registration don`t have 'error' or returns page registration.html if registration have 'error'.
      * @param user - user.
      * @param result - result.
      * @param model - model.
-     * @return - returns index page.
+     * @return - returns start page index.html if registration don`t have 'error' or returns page registration.html
+     * if registration have 'error'.
      */
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registration(@ModelAttribute("user") @Valid User user, BindingResult result, Model model) {
-        //System.out.println("user registration:" + user);
         if (result.hasErrors()) {
-           // System.out.println("result has error");
             return "registration";
         }
         if (!user.getPassword().equals(user.getPasswordConfirm())) {
             model.addAttribute("passwordError", "passwords do not match");
-            //System.out.println("password do not match");
             return "registration";
         }
         if (!this.userService.saveUser(user)) {
             model.addAttribute("userLoginError", "user with same name already exists");
-            //System.out.println("user with same name");
             return "registration";
         }
-        model.addAttribute("userSave", "new user was added");
         return "index";
     }
 

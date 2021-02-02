@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * Class Role used for creates new object role with params: id, name.
  * @author Didyk Andrey (androsdav@gmail.com).
- * @since 27.01.2020.
+ * @since 01.02.2021.
  * @version 1.0.
  */
 @Entity
@@ -28,7 +28,7 @@ public class Role implements GrantedAuthority {
     private String name;
 
     /**
-     * @param users - list user.
+     * @param users - list users.
      */
     @ManyToMany(mappedBy = "roles")
     private List<User> users = new ArrayList<>();
@@ -99,7 +99,7 @@ public class Role implements GrantedAuthority {
     /**
      * equals - returns boolean result.
      * @param o - object of class Object.
-     * @return - returns "true" if id, login, password, list user of role is same, and returns "false" - isn`t same.
+     * @return - returns "true" if id, login, list user of role is same, and returns "false" - isn`t same.
      */
     @Override
     public boolean equals(Object o) {
@@ -112,8 +112,8 @@ public class Role implements GrantedAuthority {
     }
 
     /**
-     * hashCode - returns hash code for user.
-     * @return - returns hash code for user.
+     * hashCode - returns hash code for role.
+     * @return - returns hash code for urole.
      */
     @Override
     public int hashCode() {
@@ -122,7 +122,7 @@ public class Role implements GrantedAuthority {
 
     /**
      * toString - returns string format.
-     * @return - returns all information for user.
+     * @return - returns all information for role.
      */
     @Override
     public String toString() {

@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
  /** Class WebSecurityConfig used for adds users (role user or admin) and configures http security.
   *  @author Didyk Andrey (androsdav@gmail.com).
-  *  @since 02.02.2020.
+  *  @since 01.02.2021.
   *  @version 1.0.
   */
 @Configuration
@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      }
 
      /**
-      * configure - configures http security/
+      * configure - configures http security.
       * @param http - link variable to object of class HttpSecurity.
       * @throws Exception - exception.
       */
@@ -45,11 +45,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                     // access is allowed to all users
-                    .antMatchers("/", "/index", "/home", "/css/**", "/js/**", "/images/**", "/public/**").permitAll()
+                    .antMatchers("/", "/index", "/home", "/css/**", "/js/**", "/images/**").permitAll()
                     // access is allowed only not registration users
                     .antMatchers("/registration").not().fullyAuthenticated()
-                    // access is allowed only admin
-                    .antMatchers("/admin").hasRole("ADMIN")
                     // access is allowed only user
                     .antMatchers("/user").hasRole("USER")
                     // all other pages require authentication
