@@ -33,20 +33,6 @@ public class SeleniumDriver {
             //System.out.println("year: " + year);
         }
 
-        /*
-        List<WebElement> rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("row"));
-        System.out.println("point 2");
-        for (WebElement row : rows) {
-            int index = 0;
-            String lot = row.findElement(By.cssSelector("a.search-results")).getText();
-            String year = row.findElement(By.name("data-uname")).getText();
-            System.out.println("lot: " + lot);
-            System.out.println("year: " + year);
-            System.out.println();
-        }
-        */
-        driver.re
-
         System.out.println("sleep .......");
         Thread.sleep(3000);
         driver.quit();
