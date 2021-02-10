@@ -1,14 +1,19 @@
 package com.adidyk;
 
+import com.adidyk.model.Transport;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class SeleniumDriver {
+
+    private List<Transport> transports = new ArrayList<>();
 
     public void test() throws InterruptedException {
         System.setProperty("webdriver.gecko.driver", "/home/andrey/C/Program files/geckodriver/geckodriver");
@@ -24,12 +29,42 @@ public class SeleniumDriver {
             String year = row.findElement(By.cssSelector("span[data-uname='lotsearchLotcenturyyear']")).getText();
             String make = row.findElement(By.cssSelector("span[data-uname='lotsearchLotmake']")).getText();
             String model = row.findElement(By.cssSelector("span[data-uname='lotsearchLotmodel']")).getText();
-            System.out.println("lot: " + lot + "; year: " + year + "; make: " + make + "; model: " + model);
+            String item = row.findElement(By.cssSelector("span[data-uname='lotsearchItemnumber']")).getText();
+            String location = row.findElement(By.cssSelector("span[data-uname='lotsearchLotyardname']")).getText();
+            String lineRow = row.findElement(By.cssSelector("span[pref-code='searchPreference.searchFields']")).getText();
+            String saleDate = row.findElement(By.cssSelector("span[data-uname='lotsearchLotauctiondate']")).getText();
+            String odometer = row.findElement(By.cssSelector("span[data-uname='lotsearchLotodometerreading']")).getText();
+            String docType = row.findElement(By.cssSelector("span[data-uname='lotsearchSaletitletype']")).getText();
+            String damage = row.findElement(By.cssSelector("span[data-uname='lotsearchLotdamagedescription']")).getText();
+            String estRetailValue = row.findElement(By.cssSelector("span[data-uname='lotsearchLotestimatedretailvalue']")).getText();
+            String currentBid = row.findElements(By.cssSelector("span[ng-bind]")).get(1).getText();
+            String buyItNow = row.findElement(By.xpath("//*[contains(text(), 'Buy It Now Price')]")).getText().split(":")[1];
+            this.transports.add(new Transport(lot, year, make, model, item, location, lineRow, saleDate, odometer, docType, damage,estRetailValue, currentBid, buyItNow));
+            /*
+            System.out.println("lot: " + lot + "; year: " + year + "; make: " + make + "; model: " + model + "; item:" + item +
+                    "; location: " + location + "; line/row: " + lineRow + ": saleDate: " + saleDate + "; odometer: " + odometer +
+                    "; docType: " + docType + "; damage: " + damage + "; estRetailValue: " + estRetailValue + "; currentBid:" + currentBid +
+                    "; but it nowL " + buyItNow);
+            System.out.println();
+            */
         }
+        WebElement nextPage = driver.findElement(By.cssSelector("a[data-dt-idx='9']"));
+        nextPage.click();
+        System.out.println("nest page: " + nextPage.getText());
+
 
         System.out.println("sleep .......");
-        Thread.sleep(3000);
+        Thread.sleep(5000);
         driver.quit();
+        this.printAllTransport();
+    }
 
+    private void printAllTransport() {
+        int index = 0;
+        for (Transport transport : transports) {
+            System.out.println("[" + index + "]:  " + transport);
+            index ++;
+
+        }
     }
 }
