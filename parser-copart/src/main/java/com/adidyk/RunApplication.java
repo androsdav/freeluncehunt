@@ -8,6 +8,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.EnableScheduling;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.List;
  * @version 1.0.
  */
 @SpringBootApplication
+@EnableScheduling
 public class RunApplication {
 
     /**
@@ -72,6 +75,7 @@ public class RunApplication {
     /**
      *
      */
+    /*
     private WebClientHelper webClientHelper;
 
     private WebClientService webClientService;
@@ -80,7 +84,7 @@ public class RunApplication {
     RunApplication(WebClientHelper webClientHelper, WebClientService webClientService) {
         this.webClientHelper = webClientHelper;
         this.webClientService = webClientService;
-    }
+    }*/
 
     /**
      * main - main.
@@ -93,6 +97,7 @@ public class RunApplication {
     /**
      * testJpaMethod - test JPA method.
      */
+    /*
     @EventListener(ApplicationReadyEvent.class)
     public void testJpaMethods() throws IOException, InterruptedException {
         // String filterUrl = "https://www.yelp.com/search?find_desc=Restaurants&find_loc=Brooklyn%2C%20NY"; after
@@ -157,6 +162,6 @@ public class RunApplication {
         //this.parser.purseAllLinkFromFirstPage(document);
 
 
-    }
+ //   }
 
 }
