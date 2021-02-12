@@ -66,20 +66,7 @@ public class SeleniumDriver {
             String currentBid = row.findElements(By.cssSelector("span[ng-bind]")).get(1).getText();
             String buyItNow = row.findElement(By.xpath("//*[contains(text(), 'Buy It Now Price')]")).getText().split(":")[1];
             this.transports.add(new Transport(lot, year, make, model, item, location, lineRow, saleDate, odometer, docType, damage,estRetailValue, currentBid, buyItNow));
-            /*
-            System.out.println("lot: " + lot + "; year: " + year + "; make: " + make + "; model: " + model + "; item:" + item +
-                    "; location: " + location + "; line/row: " + lineRow + ": saleDate: " + saleDate + "; odometer: " + odometer +
-                    "; docType: " + docType + "; damage: " + damage + "; estRetailValue: " + estRetailValue + "; currentBid:" + currentBid +
-                    "; but it nowL " + buyItNow);
-            System.out.println();
-            */
         }
-        /*
-
-        WebElement nextPage = driver.findElement(By.cssSelector("a[data-dt-idx='9']"));
-        nextPage.click();
-        System.out.println("nest page: " + nextPage.getText());*/
-
 
         System.out.println();
         System.out.println("page : " + this.page++);
