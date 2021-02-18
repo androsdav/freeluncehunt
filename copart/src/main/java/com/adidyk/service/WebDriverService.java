@@ -2,6 +2,7 @@ package com.adidyk.service;
 
 import com.adidyk.model.Transport;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -49,6 +50,16 @@ public class WebDriverService {
         this.webDriver.quit();
     }
 
+    private static boolean isElementPresent(WebElement webElement, By by) {
+        try {
+            webElement.findElement(by);
+            System.out.println("web element: " + webElement.findElement(by).getTagName());
+            return true;
+        } catch (NoSuchElementException ex) {
+            return false;
+        }
+    }
+
     /**
      * parse - parse (parse only first page results).
      * @param url - url parse.
@@ -60,6 +71,19 @@ public class WebDriverService {
         System.out.println("tbody found");
         List<WebElement> rows = tbody.findElements(By.tagName("tr"));
         for (WebElement row : rows) {
+
+            /*
+            System.out.println();
+            System.out.println(row.getText());
+            System.out.println();*/
+            List<WebElement> elements = row.findElements(By.xpath(".//li[contains(text(), 'Buy It Now Price')]"));
+            for (WebElement element : elements) {
+                System.out.println(element.getText());
+            }
+            System.out.println();
+
+
+            /*
             String lot = row.findElement(By.cssSelector("a.search-results")).getText();
             String year = row.findElement(By.cssSelector("span[data-uname='lotsearchLotcenturyyear']")).getText();
             String make = row.findElement(By.cssSelector("span[data-uname='lotsearchLotmake']")).getText();
@@ -75,14 +99,29 @@ public class WebDriverService {
             String currentBid = null;
             String buyItNow = null;
             String startingBid = null;
+            if (isElementPresent(row, By.cssSelector("span[ng-bind]"))) {
+                System.out.println("currentBid is true ");
+                currentBid = row.findElements(By.cssSelector("span[ng-bind]")).get(1).getText();
+            }
+            if (isElementPresent(row, By.xpath("//li[contains(text(), 'Buy It Now Price')]"))) {
+                System.out.println("byItNow is true ");
+                buyItNow = row.findElement(By.xpath("//li[contains(text(), 'Buy It Now Price')]")).getText().split(":")[1];
+            }
+            if (isElementPresent(row, By.xpath("//*[contains(text(), 'Starting Bid')]"))) {
+                System.out.println("startingBid is true ");
+                startingBid = row.findElement(By.xpath("//*[contains(text(), 'Starting Bid')]")).getText().split(":")[1];
+            }
+            /*
             if (row.findElement(By.className("list-unstyled")).findElements(By.tagName("li")).size() == 5) {
                 currentBid = row.findElements(By.cssSelector("span[ng-bind]")).get(1).getText();
-                buyItNow = row.findElement(By.xpath("//*[contains(text(), 'Buy It Now Price')]")).getText().split(":")[1];
+                if (isElementPresent(row, By.xpath("//*[contains(text(), 'Buy It Now Price')]"))) {
+                    buyItNow = row.findElement(By.xpath("//*[contains(text(), 'Buy It Now Price')]")).getText().split(":")[1];
+                }
             } else if (row.findElement(By.className("list-unstyled")).findElements(By.tagName("li")).size() == 4) {
                 startingBid = row.findElement(By.xpath("//*[contains(text(), 'Starting Bid')]")).getText().split(":")[1];
 
-            }
-            this.transports.add(new Transport(lot, year, make, model, item, location, lineRow, saleDate, odometer, docType, damage, estRetailValue, currentBid, buyItNow, startingBid));
+            }*/
+            //this.transports.add(new Transport(lot, year, make, model, item, location, lineRow, saleDate, odometer, docType, damage, estRetailValue, currentBid, buyItNow, startingBid));
         }
             System.out.println("print transport");
         int index = 0;
@@ -91,6 +130,7 @@ public class WebDriverService {
             index ++;
 
         }
+        this.transports.clear();
     }
 
 }

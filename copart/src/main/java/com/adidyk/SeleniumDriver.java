@@ -81,13 +81,14 @@ public class SeleniumDriver {
     }
 
     private void printAllTransport() {
+        /*
         int index = 0;
         for (Transport transport : transports) {
             System.out.println("[" + index + "]:  " + transport);
             index ++;
 
         }
-        this.transports.clear();
+        this.transports.clear();*/
     }
 
 }
