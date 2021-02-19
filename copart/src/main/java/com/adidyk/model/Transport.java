@@ -15,7 +15,6 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-
 public class Transport {
 
     int id;

@@ -50,14 +50,67 @@ public class WebDriverService {
         this.webDriver.quit();
     }
 
+    /**
+     * isElementPresent - is element present.
+     * @param webElement - web element.
+     * @param by - by.
+     * @return - return true or false.
+     */
     private static boolean isElementPresent(WebElement webElement, By by) {
         try {
             webElement.findElement(by);
-            System.out.println("web element: " + webElement.findElement(by).getTagName());
             return true;
         } catch (NoSuchElementException ex) {
             return false;
         }
+    }
+
+    /**
+     * isElementPresent - is element present.
+     * @param webDriver - web driver.
+     * @param by - by.
+     * @return - return true or false.
+     */
+    private static boolean isElementPresent(WebDriver webDriver, By by) {
+        try {
+            webDriver.findElement(by);
+            return true;
+        } catch (NoSuchElementException ex) {
+            return false;
+        }
+    }
+
+    /**
+     * parseOneRow - parse one row from table.
+     * @param row - row.
+     * @return - return transport.
+     */
+    private Transport parseOneRow(WebElement row) {
+        String lot = row.findElement(By.cssSelector("a.search-results")).getText();
+        String year = row.findElement(By.cssSelector("span[data-uname='lotsearchLotcenturyyear']")).getText();
+        String make = row.findElement(By.cssSelector("span[data-uname='lotsearchLotmake']")).getText();
+        String model = row.findElement(By.cssSelector("span[data-uname='lotsearchLotmodel']")).getText();
+        String item = row.findElement(By.cssSelector("span[data-uname='lotsearchItemnumber']")).getText();
+        String location = row.findElement(By.cssSelector("span[data-uname='lotsearchLotyardname']")).getText();
+        String lineRow = row.findElement(By.cssSelector("span[pref-code='searchPreference.searchFields']")).getText();
+        String saleDate = row.findElement(By.cssSelector("span[data-uname='lotsearchLotauctiondate']")).getText();
+        String odometer = row.findElement(By.cssSelector("span[data-uname='lotsearchLotodometerreading']")).getText();
+        String docType = row.findElement(By.cssSelector("span[data-uname='lotsearchSaletitletype']")).getText();
+        String damage = row.findElement(By.cssSelector("span[data-uname='lotsearchLotdamagedescription']")).getText();
+        String estRetailValue = row.findElement(By.cssSelector("span[data-uname='lotsearchLotestimatedretailvalue']")).getText();
+        String currentBid = null;
+        String buyItNow = null;
+        String startingBid = null;
+        if (isElementPresent(row, By.cssSelector("span[ng-bind]"))) {
+            currentBid = row.findElements(By.cssSelector("span[ng-bind]")).get(1).getText();
+        }
+        if (isElementPresent(row, By.xpath(".//li[contains(text(), 'Buy It Now Price')]"))) {
+            buyItNow = row.findElement(By.xpath(".//li[contains(text(), 'Buy It Now Price')]")).getText().split(":")[1];
+        }
+        if (isElementPresent(row, By.xpath(".//li[contains(text(), 'Starting Bid')]"))) {
+            startingBid = row.findElement(By.xpath(".//li[contains(text(), 'Starting Bid')]")).getText().split(":")[1];
+        }
+        return new Transport(lot, year, make, model, item, location, lineRow, saleDate, odometer, docType, damage, estRetailValue, currentBid, buyItNow, startingBid);
     }
 
     /**
@@ -68,62 +121,22 @@ public class WebDriverService {
         this.webDriver.get(url);
         WebElement tbody = new WebDriverWait(this.webDriver, 60).until(ExpectedConditions.presenceOfElementLocated(By.tagName("tbody")));
         Thread.sleep(2000);
-        System.out.println("tbody found");
-        List<WebElement> rows = tbody.findElements(By.tagName("tr"));
-        for (WebElement row : rows) {
-
-            /*
+        int i = 1;
+        do {
+            System.out.println(i);
+            System.out.println(tbody.getText());
             System.out.println();
-            System.out.println(row.getText());
-            System.out.println();*/
-            List<WebElement> elements = row.findElements(By.xpath(".//li[contains(text(), 'Buy It Now Price')]"));
-            for (WebElement element : elements) {
-                System.out.println(element.getText());
+            for (WebElement row : tbody.findElements(By.tagName("tr"))) {
+                this.transports.add(this.parseOneRow(row));
             }
-            System.out.println();
+            if (isElementPresent(this.webDriver, By.xpath(".//li[@class='paginate_button next']"))) {
+                this.webDriver.findElement(By.xpath(".//li[@class='paginate_button next']/a[text()='Next']")).click();
+                Thread.sleep(3000);
+                i++;
+            }
+        } while (isElementPresent(this.webDriver, By.xpath(".//li[@class='paginate_button next']")));
+                //isElementPresent(this.webDriver, By.xpath(".//li[@class='paginate_button next disabled']")));
 
-
-            /*
-            String lot = row.findElement(By.cssSelector("a.search-results")).getText();
-            String year = row.findElement(By.cssSelector("span[data-uname='lotsearchLotcenturyyear']")).getText();
-            String make = row.findElement(By.cssSelector("span[data-uname='lotsearchLotmake']")).getText();
-            String model = row.findElement(By.cssSelector("span[data-uname='lotsearchLotmodel']")).getText();
-            String item = row.findElement(By.cssSelector("span[data-uname='lotsearchItemnumber']")).getText();
-            String location = row.findElement(By.cssSelector("span[data-uname='lotsearchLotyardname']")).getText();
-            String lineRow = row.findElement(By.cssSelector("span[pref-code='searchPreference.searchFields']")).getText();
-            String saleDate = row.findElement(By.cssSelector("span[data-uname='lotsearchLotauctiondate']")).getText();
-            String odometer = row.findElement(By.cssSelector("span[data-uname='lotsearchLotodometerreading']")).getText();
-            String docType = row.findElement(By.cssSelector("span[data-uname='lotsearchSaletitletype']")).getText();
-            String damage = row.findElement(By.cssSelector("span[data-uname='lotsearchLotdamagedescription']")).getText();
-            String estRetailValue = row.findElement(By.cssSelector("span[data-uname='lotsearchLotestimatedretailvalue']")).getText();
-            String currentBid = null;
-            String buyItNow = null;
-            String startingBid = null;
-            if (isElementPresent(row, By.cssSelector("span[ng-bind]"))) {
-                System.out.println("currentBid is true ");
-                currentBid = row.findElements(By.cssSelector("span[ng-bind]")).get(1).getText();
-            }
-            if (isElementPresent(row, By.xpath("//li[contains(text(), 'Buy It Now Price')]"))) {
-                System.out.println("byItNow is true ");
-                buyItNow = row.findElement(By.xpath("//li[contains(text(), 'Buy It Now Price')]")).getText().split(":")[1];
-            }
-            if (isElementPresent(row, By.xpath("//*[contains(text(), 'Starting Bid')]"))) {
-                System.out.println("startingBid is true ");
-                startingBid = row.findElement(By.xpath("//*[contains(text(), 'Starting Bid')]")).getText().split(":")[1];
-            }
-            /*
-            if (row.findElement(By.className("list-unstyled")).findElements(By.tagName("li")).size() == 5) {
-                currentBid = row.findElements(By.cssSelector("span[ng-bind]")).get(1).getText();
-                if (isElementPresent(row, By.xpath("//*[contains(text(), 'Buy It Now Price')]"))) {
-                    buyItNow = row.findElement(By.xpath("//*[contains(text(), 'Buy It Now Price')]")).getText().split(":")[1];
-                }
-            } else if (row.findElement(By.className("list-unstyled")).findElements(By.tagName("li")).size() == 4) {
-                startingBid = row.findElement(By.xpath("//*[contains(text(), 'Starting Bid')]")).getText().split(":")[1];
-
-            }*/
-            //this.transports.add(new Transport(lot, year, make, model, item, location, lineRow, saleDate, odometer, docType, damage, estRetailValue, currentBid, buyItNow, startingBid));
-        }
-            System.out.println("print transport");
         int index = 0;
         for (Transport transport : transports) {
             System.out.println("[" + index + "]:  " + transport);
