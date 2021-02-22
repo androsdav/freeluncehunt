@@ -135,7 +135,6 @@ public class WebDriverService {
                 i++;
             }
         } while (isElementPresent(this.webDriver, By.xpath(".//li[@class='paginate_button next']")));
-                //isElementPresent(this.webDriver, By.xpath(".//li[@class='paginate_button next disabled']")));
 
         int index = 0;
         for (Transport transport : transports) {
