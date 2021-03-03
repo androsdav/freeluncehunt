@@ -121,6 +121,13 @@ public class WebDriverService {
         this.webDriver.get(url);
         WebElement tbody = new WebDriverWait(this.webDriver, 60).until(ExpectedConditions.presenceOfElementLocated(By.tagName("tbody")));
         Thread.sleep(2000);
+        List<WebElement> next = this.webDriver.findElements(By.xpath(".//li[@class='paginate_button next']/preceding-sibling::li"));
+        for (WebElement element : next) {
+            System.out.println("element:     " + element.getText());
+        }
+
+
+        /*
         int i = 1;
         do {
             System.out.println(i);
@@ -141,7 +148,7 @@ public class WebDriverService {
             System.out.println("[" + index + "]:  " + transport);
             index ++;
 
-        }
+        }*/
         this.transports.clear();
     }
 
