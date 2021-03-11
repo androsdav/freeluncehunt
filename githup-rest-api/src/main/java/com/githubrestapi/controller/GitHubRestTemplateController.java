@@ -1,5 +1,6 @@
 package com.githubrestapi.controller;
 
+import com.githubrestapi.model.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,13 @@ public class GitHubRestTemplateController {
     public ResponseEntity<String> test() {
         String result = this.restTemplate.getForObject("https://api.github.com/users/androsdav", String.class);
         return  new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/get1", method = RequestMethod.GET)
+    public ResponseEntity<Account> getAccount() {
+        Account account = this.restTemplate.getForObject("https://api.github.com/users/androsdav", Account.class);
+        System.out.println(account);
+        return new ResponseEntity<>(account, HttpStatus.OK);
     }
 
 }
