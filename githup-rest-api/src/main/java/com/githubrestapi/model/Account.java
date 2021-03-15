@@ -18,7 +18,7 @@ import lombok.experimental.FieldDefaults;
 public class Account {
 
     String login;
-    String id;
+    int id;
     String node_id;
     String avatar_url;
     String gravatar_id;
@@ -34,7 +34,7 @@ public class Account {
     String events_url;
     String received_events_url;
     String type;
-    String site_admin;
+    boolean site_admin;
     String name;
     String company;
     String blog;
@@ -43,17 +43,17 @@ public class Account {
     String hireable;
     String bio;
     String twitter_username;
-    String public_repos;
-    String public_gists;
-    String followers;
-    String following;
+    int public_repos;
+    int public_gists;
+    int followers;
+    int following;
     String created_at;
     String updated_at;
     /*
     @JsonProperty("login")
     String login;
     @JsonProperty("id")
-    String id;
+    int id;
     @JsonProperty("node_id")
     String nodeId;
     @JsonProperty("avatar_url")
@@ -103,16 +103,15 @@ public class Account {
     @JsonProperty("twitter_username")
     String twitterUsername;
     @JsonProperty("public_repos")
-    String publicRepos;
+    int publicRepos;
     @JsonProperty("public_gists")
-    String publicGists;
+    int publicGists;
     @JsonProperty("followers")
-    String followers;
+    int followers;
     @JsonProperty("following")
-    String following;
+    int following;
     @JsonProperty("created_at")
     String createdAt;
     @JsonProperty("updated_at")
-    String updatedAt;
-    */
+    String updatedAt;*/
 }

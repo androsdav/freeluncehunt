@@ -16,12 +16,13 @@ import org.springframework.web.client.RestTemplate;
  * @version 1.0.
  */
 @RestController
+@RequestMapping(path = "/github")
 public class GitHubRestTemplateController {
 
     /**
      * @param token - personal token in github.
      */
-    private String token = "Bearer 4277a4015f87d65d57b2d7e81ed45fc9a621659e";
+    private String token = "Bearer bb15609056af794cbfea594e5c19cefc5fc24eee";
 
     /**
      * @param restTemplate - rest template.
@@ -52,11 +53,23 @@ public class GitHubRestTemplateController {
      * @param login - user login in github.
      * @return - returns response entity from account by input login.
      */
-    @RequestMapping(value = "/github/{login}", method = RequestMethod.GET)
-    public ResponseEntity<Account> getOauthAccount(@PathVariable("login") String login) {
-        ResponseEntity<Account> account = this.restTemplate.exchange("https://api.github.com/users/androsdav", HttpMethod.GET, requestEntity(), Account.class);
-        System.out.println(account);
+    @RequestMapping(value = "/{login}", method = RequestMethod.GET, produces = "application/json")
+    public ResponseEntity<Account> getUser(@PathVariable("login") String login) {
+        String url = "https://api.github.com/users/" + login;
+        System.out.println("url: " + url);
+        ResponseEntity<Account> account = this.restTemplate.exchange(url, HttpMethod.GET, requestEntity(), Account.class);
+        System.out.println();
+        System.out.println("Header :  " + account.getHeaders().get("X-RateLimit-Limit"));
+        System.out.println("Header :  " + account.getHeaders().get("X-RateLimit-Reset"));
+        System.out.println();
+        System.out.println("Body :  " + account.getBody());
+        System.out.println();
+        System.out.println("Status code :  " + account.getStatusCode());
+        System.out.println();
+        System.out.println("Status code value :  " + account.getStatusCodeValue());
         return new ResponseEntity<>(account.getBody(), HttpStatus.OK);
+        //return account;
     }
+
 
 }
