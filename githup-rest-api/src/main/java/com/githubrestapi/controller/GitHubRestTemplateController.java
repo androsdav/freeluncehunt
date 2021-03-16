@@ -68,7 +68,6 @@ public class GitHubRestTemplateController {
         System.out.println();
         System.out.println("Status code value :  " + account.getStatusCodeValue());
         return new ResponseEntity<>(account.getBody(), HttpStatus.OK);
-        //return account;
     }
 
 
