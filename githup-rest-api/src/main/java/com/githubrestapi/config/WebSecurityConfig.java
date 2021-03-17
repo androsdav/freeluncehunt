@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                     // access is allowed to all users
-                    .antMatchers("/", "/index", "/home", "/css/**", "/js/**", "/images/**", "/get/**", "/github/**").permitAll()
+                    .antMatchers("/", "/index", "/home", "/css/**", "/js/**", "/images/**", "/get/**", "/test/**", "/callback/**", "/session/**").permitAll()
                     // access is allowed only not registration users
                     .antMatchers("/registration").not().fullyAuthenticated()
                     // access is allowed only user

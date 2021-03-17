@@ -8,6 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Class CardController used for controller with front end.
@@ -16,7 +20,6 @@ import org.springframework.web.client.RestTemplate;
  * @version 1.0.
  */
 @RestController
-@RequestMapping(path = "/github")
 public class GitHubRestTemplateController {
 
     /**
@@ -47,6 +50,43 @@ public class GitHubRestTemplateController {
         headers.set("Authorization", this.token);
         return new HttpEntity<>(null, headers);
     }
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public ResponseEntity<String> test() {
+        System.out.println("test method output");
+        String url = "https://github.com/login/oauth/authorize";
+        HttpHeaders headers = new HttpHeaders();
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
+                .queryParam("response_type", "code")
+                .queryParam("state")
+                .queryParam("client_id", "6fbd5ea9a05c0d689e8f")
+                .queryParam("scope")
+                .queryParam("redirect_uri", "http://localhost:8080/callback")
+                .queryParam("login", "androsdav");
+
+
+        System.out.println("builder: " + builder.toUriString());
+
+        HttpEntity<?> entity = new HttpEntity<>(headers);
+
+        ResponseEntity<String> response = this.restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, String.class);
+        return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/callback/{code}", method = RequestMethod.GET)
+    public void test1(@PathVariable("code") String code) {
+        System.out.println();
+        System.out.println("code:" + code);
+        System.out.println();
+        System.out.println("callback");
+
+    }
+
+    public void test2() {
+
+    }
+
 
     /**
      * getOauthAccount - getOauthAccount.
