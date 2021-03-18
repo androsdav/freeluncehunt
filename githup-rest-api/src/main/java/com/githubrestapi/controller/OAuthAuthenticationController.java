@@ -1,28 +1,52 @@
 package com.githubrestapi.controller;
 
-import com.githubrestapi.model.Account;
+import com.githubrestapi.model.OAuthEntity;
+import com.githubrestapi.model.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Collections;
+import java.util.Objects;
 
 /**
- * Class CardController used for controller with front end.
+ * Class UserController used for controller with front end.
  * @author Didyk Andrey (androsdav@gmail.com).
- * @since 12.03.2021.
+ * @since 18.03.2021.
  * @version 1.0.
  */
-@RestController
-public class GitHubRestTemplateController {
+@Controller
+public class OAuthAuthenticationController {
 
     /**
-     * @param token - personal token in github.
+     *
      */
-    private String token = "Bearer bb15609056af794cbfea594e5c19cefc5fc24eee";
+    private final String clientId = "6fbd5ea9a05c0d689e8f";
+
+    /**
+     *
+     */
+    private final String clientSecret = "9588182a4b419b4ab37a736d8f0405c1eff5756e";
+
+    /**
+     *
+     */
+    private final String urlOAuthAuthorize = "https://github.com/login/oauth/authorize";
+
+    /**
+     *
+     */
+    private final String urlOAuthAccessToken = "https://github.com/login/oauth/access_token";
+
+    /**
+     *
+     */
+    private Token token;
 
     /**
      * @param restTemplate - rest template.
@@ -34,64 +58,51 @@ public class GitHubRestTemplateController {
      * @param restTemplate - rest template.
      */
     @Autowired
-    public GitHubRestTemplateController(RestTemplate restTemplate) {
+    public OAuthAuthenticationController(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
+
     /**
-     * requestEntity - requestEntity.
-     * @return - return headers.
+     *
+     * @param model
+     * @return
      */
-    private HttpEntity<?> requestEntity() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", this.token);
-        return new HttpEntity<>(null, headers);
-    }
-
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public ResponseEntity<String> test() {
-        System.out.println("test method output");
-        String url = "https://github.com/login/oauth/authorize";
-        HttpHeaders headers = new HttpHeaders();
-
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(url)
+    @RequestMapping(value = "/authorizeForm", method = RequestMethod.GET)
+    public String authorizeForm(Model model) {
+        UriComponentsBuilder urlBuilder = UriComponentsBuilder.fromHttpUrl(urlOAuthAuthorize)
                 .queryParam("response_type", "code")
                 .queryParam("state")
-                .queryParam("client_id", "6fbd5ea9a05c0d689e8f")
+                .queryParam("client_id", clientId)
                 .queryParam("scope");
-                //.queryParam("redirect_uri", "http://localhost:8080/callback")
-                //.queryParam("login", "androsdav");
-
-
-        System.out.println("builder: " + builder.toUriString());
-
-        HttpEntity<?> entity = new HttpEntity<>(headers);
-
-        ResponseEntity<String> response = this.restTemplate.exchange(builder.toUriString(), HttpMethod.GET, entity, String.class);
-        return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
+        model.addAttribute("urlBuilder", urlBuilder.toUriString());
+        return "authorize";
     }
 
-    /*
+    /**
+     *
+     * @param code
+     * @return
+     */
     @RequestMapping(value = "/callback", method = RequestMethod.GET)
     public String test1(@RequestParam("code") String code) {
         System.out.println();
         System.out.println("code:" + code);
         System.out.println();
         System.out.println("callback");
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        OAuthEntity oAuthEntity = new OAuthEntity(clientId, clientSecret, code);
+        HttpEntity<OAuthEntity> entity = new HttpEntity<>(oAuthEntity, headers);
+        ResponseEntity<Token> token = this.restTemplate.exchange(urlOAuthAccessToken, HttpMethod.POST, entity, Token.class);
+        System.out.println("response: " + token.getBody());
+        this.token = new Token(Objects.requireNonNull(token.getBody()).getAccess_token(), token.getBody().getToken_type(), token.getBody().getScope());
+        System.out.println("TOKEN: " + this.token);
         return "index";
-
-    }*/
-
-    public void test2() {
 
     }
 
-
-    /**
-     * getOauthAccount - getOauthAccount.
-     * @param login - user login in github.
-     * @return - returns response entity from account by input login.
-     */
     /*
     @RequestMapping(value = "/{login123}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<Account> getUser(@PathVariable("login123") String login) {
@@ -113,6 +124,5 @@ public class GitHubRestTemplateController {
         System.out.println("Status code value :  " + account.getStatusCodeValue());
         return new ResponseEntity<>(account.getBody(), HttpStatus.OK);
     }*/
-
 
 }
