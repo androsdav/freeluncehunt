@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:th = "http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring Boot Security</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <div class="row" style="margin-top:20px">
+        <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-3">
+            <form action="#" th:action="@{/github/users}"  method="post">
+                <fieldset>
+                    <h3>Find user by login</h3>
+                    <div class="form-group">
+                        <input name="login" class="form-control" type="text" th:value = "${login}"
+                               placeholder = "login" required="true" autofocus="true"/>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-6 col-sm-6 col-md-5">
+                            <button class="btn btn-primary btn-block">Find user by login</button>
+                        </div>
+                        <div class="col-xs-6 col-sm-6 col-md-4">
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+            <div>
+                <div style="padding-top: 30px">
+                    <a class="link" th:href="@{/}"> &lArr; back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

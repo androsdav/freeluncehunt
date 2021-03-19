@@ -9,32 +9,31 @@
 </head>
 <body>
 <div class="container">
-    <div class="row" style="margin-top:20px">
+    <div class="row"  style="margin-top:20px">
         <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-3">
-            <form action="#" th:action="@{/updateUser}" method="post">
-                <fieldset>
-                    <h3>Authorize</h3>
-                    <div class="form-group">
-                        <input class="form-control" type="text" name="login" th:value = "${urlBuilder}"
-                               placeholder = "name" required="true" autofocus="true"/>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-6 col-sm-6 col-md-5">
-                            <button class="btn btn-primary btn-block">Authorize</button>
-                        </div>
-                        <div class="col-xs-6 col-sm-6 col-md-4">
-                        </div>
-                    </div>
-                </fieldset>
-            </form>
+            <h3><b>Authorize</b></h3>
             <div>
                 <div style="padding-top: 30px">
-                    <a class="link" th:href="@{/}"> &lArr; back</a>
+                    <span th:text="${urlAuthorize}"></span>
                 </div>
             </div>
+            <div>
+                <div style="padding-top: 30px">
+                    <a class="link" th:href="${urlAuthorize}">authorize</a>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-4">
+                    <a class="link" th:href="@{/}"> &lArr; back</a>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-4">
+                </div>
+            </div>
+
         </div>
     </div>
-    <a class="link" th:href="${urlBuilder}">authorize</a>
 </div>
 </body>
 </html>
