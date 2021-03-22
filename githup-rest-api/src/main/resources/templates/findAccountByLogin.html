@@ -3,7 +3,7 @@
       xmlns:th = "http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Spring Boot Security</title>
+    <title>GitHub REST API</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 </head>
@@ -14,6 +14,11 @@
             <form action="#" th:action="@{/github/users}"  method="post">
                 <fieldset>
                     <h3>Find user by login</h3>
+                    <div th:if="${accountLoginError}">
+                        <div class="alert alert-danger">
+                            <span th:text="${accountLoginError}"></span>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <input name="login" class="form-control" type="text" th:value = "${login}"
                                placeholder = "login" required="true" autofocus="true"/>
@@ -28,7 +33,7 @@
                 </fieldset>
             </form>
             <div>
-                <div style="padding-top: 30px">
+                <div style="padding-top: 30px; padding-bottom:30px">
                     <a class="link" th:href="@{/}"> &lArr; back</a>
                 </div>
             </div>

@@ -4,7 +4,7 @@
        xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head>
     <meta charset="UTF-8">
-    <title>Bankcard</title>
+    <title>GitHub REST API</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 </head>
@@ -31,23 +31,11 @@
             <div class="form-group" sec:authorize="hasRole('ROLE_USER')">
                 <a class="link" th:href="@{/userInfo/{login}(login=${#authentication.name})}">User info</a>
             </div>
-            <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
-                <a class="link" th:href="@{/saveCardForm/{login}(login=${#authentication.name})}">Add new card</a>
-            </div>
-            <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
-                <a class="link" th:href="@{/cardInfo/{login}(login=${#authentication.name})}">Cards info</a>
-            </div>
-            <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
-                <a class="link" th:href="@{/transferMoneyFromUserToCardForm/{login}(login=${#authentication.name})}">Transfer money user -> card</a>
-            </div>
-            <div class="form-group" sec:authorize="hasRole('ROLE_ADMIN')">
-                <a class="link" th:href="@{/transferMoneyFromCardToCardForm/{login}(login=${#authentication.name})}">Transfer money card -> card</a>
+            <div class="form-group" sec:authorize="hasRole('ROLE_USER')">
+                <a class="link" th:href="@{/github/oauth/authorize}">OAuth Apps GitHub</a>
             </div>
             <div class="form-group" sec:authorize="hasRole('ROLE_USER')">
-                <a class="link" th:href="@{/github/oauth/authorize}">authorize</a>
-            </div>
-            <div class="form-group" sec:authorize="hasRole('ROLE_USER')">
-                <a class="link" th:href="@{/github/users}">get CV</a>
+                <a class="link" th:href="@{/github/users}">Get CV from GitHub</a>
             </div>
         </div>
     </div>

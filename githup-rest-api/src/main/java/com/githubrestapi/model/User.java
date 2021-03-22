@@ -63,12 +63,6 @@ public class User implements UserDetails {
     private Float money;
 
     /**
-     * @param card - user bank list cards.
-     */
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Card> cards = new ArrayList<>();
-
-    /**
      * @param roles - user roles.
      */
     @ManyToMany(fetch = FetchType.EAGER)
@@ -236,22 +230,6 @@ public class User implements UserDetails {
     }
 
     /**
-     * getCard - returns list cards.
-     * @return - returns list cards.
-     */
-    public List<Card> getCards() {
-        return cards;
-    }
-
-    /**
-     * setCard - sets list cards.
-     * @param cards - list cards.
-     */
-    public void setCards(List<Card> cards) {
-        this.cards = cards;
-    }
-
-    /**
      * getRoles - gets set roles.
      * @return - returns set roles.
      */
@@ -338,8 +316,7 @@ public class User implements UserDetails {
                 Objects.equals(name, user.name) &&
                 Objects.equals(surname, user.surname) &&
                 Objects.equals(money, user.money) &&
-                Objects.equals(roles, user.roles) &&
-                Objects.equals(cards, user.cards);
+                Objects.equals(roles, user.roles);
     }
 
     /**
@@ -348,7 +325,7 @@ public class User implements UserDetails {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(id, login, password, passwordConfirm, name, surname, money, roles, cards);
+        return Objects.hash(id, login, password, passwordConfirm, name, surname, money, roles);
     }
 
     /**

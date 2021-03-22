@@ -3,32 +3,33 @@
       xmlns:th = "http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Spring Boot Security</title>
+    <title>GitHub REST API</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 </head>
 <body>
 <div class="container">
-    <div class="row"  style="margin-top:20px">
-        <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-3">
-            <h3><b>Authorize</b></h3>
-            <div>
-                <div style="padding-top: 30px">
-                    <span th:text="${urlAuthorize}"></span>
+    <div class="row" style="margin-top:20px">
+        <div class="col-xs-12 col-sm-8 col-md-12 col-sm-offset-2 col-md-offset-3">
+            <h3>OAuth Apps GitHub </h3>
+            <div th:if="${tokenError}" class="form-group">
+                <div class="alert alert-danger">
+                    <span th:text="${tokenError}"></span>
                 </div>
             </div>
-            <div>
-                <div style="padding-top: 30px">
+            <div class="form-group">
+                <div style="padding-top: 10px">
+                    <b>link: </b><span th:text="${urlAuthorize}"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div style="padding-top: 10px">
                     <a class="link" th:href="${urlAuthorize}">authorize</a>
                 </div>
             </div>
-
-
-            <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-4">
+            <div class="form-group">
+                <div style="padding-top: 10px; padding-bottom:30px">
                     <a class="link" th:href="@{/}"> &lArr; back</a>
-                </div>
-                <div class="col-xs-6 col-sm-6 col-md-4">
                 </div>
             </div>
 

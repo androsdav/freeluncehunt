@@ -7,31 +7,26 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 /**
- * Class OAuthEntity used for creates new object oAuthEntity with params: client_id, client_secret, code.
+ * Class Language used for creates new object language.
  * name, surname, money.
  * @author Didyk Andrey (androsdav@gmail.com).
- * @since 18.03.2021.
+ * @since 10.03.2021.
  * @version 1.0.
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class OAuthEntity {
+public class Language {
 
     /**
-     * @param client_id - client id.
+     * @param name - language name.
      */
-    String client_id;
+    String name;
 
     /**
-     * @param client_secret - client secret.
+     * @param value - value.
      */
-    String client_secret;
-
-    /**
-     * @param code - code.
-     */
-    String code;
+    Double value;
 
 }

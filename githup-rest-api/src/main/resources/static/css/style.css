@@ -57,13 +57,11 @@ hr {
 a {
     display: inline-block;
     text-decoration: none;
-    /*text-transform: uppercase;*/
     letter-spacing: 1px;
     margin: 0px 0px;
-    padding: 0px 0px;
-    font-size: 20px;
+    padding: 5px 5px 5px 5px;
+    font-size: 15px;
     font-weight: bold;
-    /*font-family: 'Montserrat', sans-serif;*/
     transition: 0.4s ease-in-out;
 }
 
@@ -77,9 +75,9 @@ a {
     box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.3);
 }
 .link:hover {
-    background-image: -webkit-repeating-linear-gradient(left, #FFDDBB, #FFDDBB 1px, rgba(255, 0, 0, 0) 2px, rgba(255, 0, 0, 0) 10px);
-    background-image: -o-repeating-linear-gradient(90deg, #FFDDBB, #FFDDBB 1px, rgba(255, 0, 0, 0) 2px, rgba(255, 0, 0, 0) 10px);
-    background-image: repeating-linear-gradient(90deg, #FFDDBB, #FFDDBB 1px, transparent 2px, transparent 10px);
+    /*background-image: -webkit-repeating-linear-gradient(left, #FFDDBB, #FFDDBB 1px, rgba(255, 0, 0, 0) 2px, rgba(255, 0, 0, 0) 10px);*/
+    /*background-image: -o-repeating-linear-gradient(90deg, #FFDDBB, #FFDDBB 1px, rgba(255, 0, 0, 0) 2px, rgba(255, 0, 0, 0) 10px);*/
+    /*background-image: repeating-linear-gradient(90deg, #FFDDBB, #FFDDBB 1px, transparent 2px, transparent 10px);*/
 }
 
 /*.link {

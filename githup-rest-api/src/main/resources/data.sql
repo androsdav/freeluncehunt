@@ -17,11 +17,3 @@ INSERT INTO roles (name) VALUES ('ROLE_ADMIN');
 INSERT INTO users_roles(user_id, role_id) VALUES (1, 1);
 INSERT INTO users_roles(user_id, role_id) VALUES (2, 1);
 INSERT INTO users_roles(user_id, role_id) VALUES (3, 1);
-
--- insert card to all users
-INSERT INTO cards(name, money, user_id) VALUES ('visa', 100, 1);
-INSERT INTO cards(name, money, user_id) VALUES ('mastercard', 50, 1);
-INSERT INTO cards(name, money, user_id) VALUES ('visa', 100, 2);
-INSERT INTO cards(name, money, user_id) VALUES ('mastercard', 50, 2);
-INSERT INTO cards(name, money, user_id) VALUES ('visa', 100, 3);
-INSERT INTO cards(name, money, user_id) VALUES ('mastercard', 50, 3);
