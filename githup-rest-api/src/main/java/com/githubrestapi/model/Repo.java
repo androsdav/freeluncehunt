@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 /**
- * Class Account repo for creates new object repo with params: id, name, html_url, description, language.
+ * Class Repo used for creates new object repo with params: id, name, html_url, description, language.
  * name, surname, money.
  * @author Didyk Andrey (androsdav@gmail.com).
  * @since 10.03.2021.
@@ -43,6 +43,5 @@ public class Repo {
      * @param language - repo language.
      */
     String language;
-
 
 }
