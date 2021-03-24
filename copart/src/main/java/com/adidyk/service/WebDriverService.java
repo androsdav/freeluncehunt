@@ -119,12 +119,43 @@ public class WebDriverService {
      */
     public void parse(String url) throws InterruptedException {
         this.webDriver.get(url);
-        WebElement tbody = new WebDriverWait(this.webDriver, 60).until(ExpectedConditions.presenceOfElementLocated(By.tagName("tbody")));
+        new WebDriverWait(this.webDriver, 60).until(ExpectedConditions.presenceOfElementLocated(By.tagName("tbody")));
         Thread.sleep(2000);
+
+        int page = 0;
+        if (isElementPresent(this.webDriver, By.xpath(".//li[@class='paginate_button last']/a"))) {
+            this.webDriver.findElement(By.xpath(".//li[@class='paginate_button last']/a")).click();
+            Thread.sleep(2000);
+            page = Integer.parseInt(this.webDriver.findElement(By.xpath(".//li[@class='paginate_button active']/a")).getText());
+        } else {
+            page = 1;
+        }
+        this.webDriver.findElement(By.xpath(".//li[@class='paginate_button first']/a")).click();
+        Thread.sleep(2000);
+
+        for (int index = 0; index < page; index++) {
+            WebElement body = new WebDriverWait(this.webDriver, 60).until(ExpectedConditions.presenceOfElementLocated(By.tagName("tbody")));
+            Thread.sleep(2000);
+            for (WebElement row : body.findElements(By.tagName("tr"))) {
+                this.transports.add(this.parseOneRow(row));
+            }
+            this.webDriver.findElement(By.xpath(".//li[@class='paginate_button next']/a[text()='Next']")).click();
+            Thread.sleep(3000);
+        }
+        System.out.println(page);
+        System.out.println();
+        int index = 0;
+        for (Transport transport : transports) {
+            System.out.println("[" + index + "]:  " + transport);
+            index ++;
+
+        }
+        //System.out.println(last.getText());
+        /*
         List<WebElement> next = this.webDriver.findElements(By.xpath(".//li[@class='paginate_button next']/preceding-sibling::li"));
         for (WebElement element : next) {
             System.out.println("element:     " + element.getText());
-        }
+        }*/
 
 
         /*
