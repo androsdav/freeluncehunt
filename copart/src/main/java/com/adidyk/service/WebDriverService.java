@@ -154,36 +154,6 @@ public class WebDriverService {
             index ++;
 
         }
-        //System.out.println(last.getText());
-        /*
-        List<WebElement> next = this.webDriver.findElements(By.xpath(".//li[@class='paginate_button next']/preceding-sibling::li"));
-        for (WebElement element : next) {
-            System.out.println("element:     " + element.getText());
-        }*/
-
-
-        /*
-        int i = 1;
-        do {
-            System.out.println(i);
-            System.out.println(tbody.getText());
-            System.out.println();
-            for (WebElement row : tbody.findElements(By.tagName("tr"))) {
-                this.transports.add(this.parseOneRow(row));
-            }
-            if (isElementPresent(this.webDriver, By.xpath(".//li[@class='paginate_button next']"))) {
-                this.webDriver.findElement(By.xpath(".//li[@class='paginate_button next']/a[text()='Next']")).click();
-                Thread.sleep(3000);
-                i++;
-            }
-        } while (isElementPresent(this.webDriver, By.xpath(".//li[@class='paginate_button next']")));
-
-        int index = 0;
-        for (Transport transport : transports) {
-            System.out.println("[" + index + "]:  " + transport);
-            index ++;
-
-        }*/
         this.transports.clear();
     }
 
