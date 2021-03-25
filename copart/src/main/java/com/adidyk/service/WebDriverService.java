@@ -103,6 +103,8 @@ public class WebDriverService {
         String startingBid = null;
         if (isElementPresent(row, By.cssSelector("span[ng-bind]"))) {
             currentBid = row.findElements(By.cssSelector("span[ng-bind]")).get(1).getText();
+        } else if (isElementPresent(row, By.xpath(".//li[contains(text(), 'Current Bid')]"))) {
+            currentBid = row.findElement(By.xpath(".//li[contains(text(), 'Current Bid')]")).getText().split(":")[1];
         }
         if (isElementPresent(row, By.xpath(".//li[contains(text(), 'Buy It Now Price')]"))) {
             buyItNow = row.findElement(By.xpath(".//li[contains(text(), 'Buy It Now Price')]")).getText().split(":")[1];
@@ -122,16 +124,16 @@ public class WebDriverService {
         new WebDriverWait(this.webDriver, 60).until(ExpectedConditions.presenceOfElementLocated(By.tagName("tbody")));
         Thread.sleep(2000);
 
-        int page = 0;
+        int page;
         if (isElementPresent(this.webDriver, By.xpath(".//li[@class='paginate_button last']/a"))) {
             this.webDriver.findElement(By.xpath(".//li[@class='paginate_button last']/a")).click();
             Thread.sleep(2000);
             page = Integer.parseInt(this.webDriver.findElement(By.xpath(".//li[@class='paginate_button active']/a")).getText());
+            this.webDriver.findElement(By.xpath(".//li[@class='paginate_button first']/a")).click();
+            Thread.sleep(2000);
         } else {
             page = 1;
         }
-        this.webDriver.findElement(By.xpath(".//li[@class='paginate_button first']/a")).click();
-        Thread.sleep(2000);
 
         for (int index = 0; index < page; index++) {
             WebElement body = new WebDriverWait(this.webDriver, 60).until(ExpectedConditions.presenceOfElementLocated(By.tagName("tbody")));
@@ -139,8 +141,10 @@ public class WebDriverService {
             for (WebElement row : body.findElements(By.tagName("tr"))) {
                 this.transports.add(this.parseOneRow(row));
             }
-            this.webDriver.findElement(By.xpath(".//li[@class='paginate_button next']/a[text()='Next']")).click();
-            Thread.sleep(3000);
+            if (isElementPresent(this.webDriver, By.xpath(".//li[@class='paginate_button next']"))) {
+                this.webDriver.findElement(By.xpath(".//li[@class='paginate_button next']/a[text()='Next']")).click();
+                //Thread.sleep(3000);
+            }
         }
         System.out.println(page);
         System.out.println();
