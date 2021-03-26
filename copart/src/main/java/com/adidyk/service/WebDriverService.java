@@ -143,7 +143,6 @@ public class WebDriverService {
             }
             if (isElementPresent(this.webDriver, By.xpath(".//li[@class='paginate_button next']"))) {
                 this.webDriver.findElement(By.xpath(".//li[@class='paginate_button next']/a[text()='Next']")).click();
-                //Thread.sleep(3000);
             }
         }
         System.out.println(page);
@@ -156,5 +155,29 @@ public class WebDriverService {
         }
         this.transports.clear();
     }
+
+    public void moveToVehicleFinderSearch() throws InterruptedException {
+        String url = "https://www.copart.com";
+        this.webDriver.get(url);
+        Thread.sleep(4000);
+        this.webDriver.findElement(By.xpath(".//a[normalize-space()='Find Vehicles']")).click();
+        this.webDriver.findElement(By.xpath(".//a[normalize-space()='Vehicle Finder']")).click();
+        Thread.sleep(4000);
+        this.webDriver.findElement(By.xpath(".//button[@class='btn btn-green']")).click();
+        Thread.sleep(4000);
+        List<WebElement> filter = this.webDriver.findElements(By.xpath("//li[@class='list-group-item']/descendant::a[@class='collapsed closed']"));
+        for (WebElement item : filter) {
+            System.out.println("item: " + item.getText());
+        }
+        System.out.println("filter: " + filter);
+    }
+
+    /*
+    public void parseModel(String url) throws InterruptedException {
+        this.webDriver.get(url);
+        WebElement body = new WebDriverWait(this.webDriver, 60).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//li[@class='list-group-item']")));
+        Thread.sleep(2000);
+
+    }*/
 
 }

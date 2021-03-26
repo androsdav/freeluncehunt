@@ -59,4 +59,10 @@ public class WebDriverController {
         return "index";
     }
 
+    @RequestMapping(value = "/copart", method = RequestMethod.GET)
+    public String copart() throws InterruptedException {
+        this.webDriverService.moveToVehicleFinderSearch();
+        return "copart";
+    }
+
 }
