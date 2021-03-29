@@ -1,11 +1,15 @@
 package com.adidyk.controller;
 
+import com.adidyk.model.Filter;
 import com.adidyk.service.WebDriverService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 /**
  * Class Transport used for creates new object transport with params: id, login, password, passwordConfirm,
@@ -60,8 +64,9 @@ public class WebDriverController {
     }
 
     @RequestMapping(value = "/copart", method = RequestMethod.GET)
-    public String copart() throws InterruptedException {
-        this.webDriverService.moveToVehicleFinderSearch();
+    public String copart(Model model) throws InterruptedException {
+        List<Filter> filters = this.webDriverService.moveToVehicleFinderSearch();
+        model.addAttribute("filters", filters);
         return "copart";
     }
 

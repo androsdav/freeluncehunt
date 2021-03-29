@@ -1,5 +1,6 @@
 package com.adidyk.service;
 
+import com.adidyk.model.Filter;
 import com.adidyk.model.Transport;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -33,6 +34,8 @@ public class WebDriverService {
      * @param transports - list transports.
      */
     private List<Transport> transports = new ArrayList<>();
+
+    private List<Filter> filters = new ArrayList<>();
 
     /**
      * initWebDriver - init web driver.
@@ -156,20 +159,26 @@ public class WebDriverService {
         this.transports.clear();
     }
 
-    public void moveToVehicleFinderSearch() throws InterruptedException {
+    public List<Filter> moveToVehicleFinderSearch() throws InterruptedException {
         String url = "https://www.copart.com";
         this.webDriver.get(url);
-        Thread.sleep(4000);
+        Thread.sleep(8000);
         this.webDriver.findElement(By.xpath(".//a[normalize-space()='Find Vehicles']")).click();
         this.webDriver.findElement(By.xpath(".//a[normalize-space()='Vehicle Finder']")).click();
-        Thread.sleep(4000);
+        Thread.sleep(8000);
         this.webDriver.findElement(By.xpath(".//button[@class='btn btn-green']")).click();
-        Thread.sleep(4000);
-        List<WebElement> filter = this.webDriver.findElements(By.xpath("//li[@class='list-group-item']/descendant::a[@class='collapsed closed']"));
-        for (WebElement item : filter) {
-            System.out.println("item: " + item.getText());
+        Thread.sleep(8000);
+        List<WebElement> filters = this.webDriver.findElements(By.xpath("//a[contains(@data-uname, 'Filter')]"));
+        for (WebElement item : filters) {
+            if (!item.getText().equals("")) {
+                this.filters.add(new Filter(item.getText()));
+            }
         }
-        System.out.println("filter: " + filter);
+        for (Filter filter1 : this.filters) {
+            System.out.println("filter: " + filter1);
+        }
+        return filters;
+
     }
 
     /*
