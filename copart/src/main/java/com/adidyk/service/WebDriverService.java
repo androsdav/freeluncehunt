@@ -177,16 +177,8 @@ public class WebDriverService {
         for (Filter filter1 : this.filters) {
             System.out.println("filter: " + filter1);
         }
-        return filters;
+        return this.filters;
 
     }
-
-    /*
-    public void parseModel(String url) throws InterruptedException {
-        this.webDriver.get(url);
-        WebElement body = new WebDriverWait(this.webDriver, 60).until(ExpectedConditions.presenceOfElementLocated(By.xpath(".//li[@class='list-group-item']")));
-        Thread.sleep(2000);
-
-    }*/
 
 }
