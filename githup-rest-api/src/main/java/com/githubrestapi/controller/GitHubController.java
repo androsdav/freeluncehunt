@@ -123,10 +123,10 @@ public class GitHubController {
      */
     @RequestMapping(value = "/oauth/authorize", method = RequestMethod.GET)
     public String authorize(Model model) {
-        UriComponentsBuilder urlBuilder = UriComponentsBuilder.fromHttpUrl(urlAuthorize)
+        UriComponentsBuilder urlBuilder = UriComponentsBuilder.fromHttpUrl(this.urlAuthorize)
                 .queryParam("response_type", "code")
                 .queryParam("state")
-                .queryParam("client_id", clientId)
+                .queryParam("client_id", this.clientId)
                 .queryParam("scope");
         model.addAttribute("urlAuthorize", urlBuilder.toUriString());
         return "authorize";
@@ -142,8 +142,8 @@ public class GitHubController {
     public String getCodeAndGetToken(@RequestParam("code") String code) {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        HttpEntity<OAuthEntity> entity = new HttpEntity<>(new OAuthEntity(clientId, clientSecret, code), headers);
-        ResponseEntity<Token> token = this.restTemplate.exchange(urlAccessToken, HttpMethod.POST, entity, Token.class);
+        HttpEntity<OAuthEntity> entity = new HttpEntity<>(new OAuthEntity(this.clientId, this.clientSecret, code), headers);
+        ResponseEntity<Token> token = this.restTemplate.exchange(this.urlAccessToken, HttpMethod.POST, entity, Token.class);
         this.token = new Token(Objects.requireNonNull(token.getBody()).getAccess_token(), token.getBody().getToken_type(), token.getBody().getScope());
         return "index";
     }
@@ -172,13 +172,13 @@ public class GitHubController {
     @RequestMapping(value = "/users", method = RequestMethod.POST)
     public String findAccountAndReposByLogin(@RequestParam("login") String login, Model model) {
         try {
-            ResponseEntity<Account> account = this.restTemplate.exchange(urlLogin + login, HttpMethod.GET, setTokenToHeaders(), Account.class);
+            ResponseEntity<Account> account = this.restTemplate.exchange(this.urlLogin + login, HttpMethod.GET, setTokenToHeaders(), Account.class);
             ResponseEntity<List<Repo>> repos = this.restTemplate.exchange(Objects.requireNonNull(account.getBody()).getRepos_url(), HttpMethod.GET, setTokenToHeaders(), new ParameterizedTypeReference<List<Repo>>() {});
             account.getBody().setRepos(repos.getBody());
             account.getBody().setLanguage(this.getLanguage(Objects.requireNonNull(repos.getBody())));
             return this.getCV(account.getBody(), model);
         } catch (Exception ex) {
-            model.addAttribute("accountLoginError", "account by login don`t found");
+            model.addAttribute("accountLoginError", "account by login don`t found or your token is old");
             return "findAccountByLogin";
         }
     }
