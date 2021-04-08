@@ -1,7 +1,11 @@
 package com.adidyk.model;
 
+import com.adidyk.JsonParserAccount;
+
 import javax.swing.event.TableModelListener;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,12 +15,24 @@ import java.util.List;
  * @since 06.04.2021.
  * @version 1.0.
  */
-public class AccountTableModel implements TableModel {
+public class AccountTableModel extends AbstractTableModel {
 
-    private List<Account> accounts;
+    private JsonParserAccount parser = new JsonParserAccount();
+
+    private List<Account> accounts = new ArrayList<>();
+
+    public AccountTableModel() {
+        this.init();
+    }
+
 
     public AccountTableModel(List<Account> accounts) {
         this.accounts = accounts;
+    }
+
+    public void init() {
+        this.accounts = this.parser.getJsonFromFile();
+
     }
 
     /**
@@ -24,6 +40,7 @@ public class AccountTableModel implements TableModel {
      * <code>JTable</code> uses this method to determine how many rows it
      * should display.  This method should be quick, as it
      * is called frequently during rendering.
+     *
      * @return the number of rows in the model
      * @see #getColumnCount
      */
@@ -36,6 +53,7 @@ public class AccountTableModel implements TableModel {
      * Returns the number of columns in the model. A
      * <code>JTable</code> uses this method to determine how many columns it
      * should create and display by default.
+     *
      * @return the number of columns in the model
      * @see #getRowCount
      */
@@ -48,9 +66,96 @@ public class AccountTableModel implements TableModel {
      * Returns the name of the column at <code>columnIndex</code>.  This is used
      * to initialize the table's column header name.  Note: this name does
      * not need to be unique; two columns in a table can have the same name.
+     *
      * @param columnIndex the index of the column
      * @return the name of the column
      */
+    @Override
+    public String getColumnName(int columnIndex) {
+        switch (columnIndex) {
+            case 0:
+                return "name";
+            case 1:
+                return "email";
+            case 2:
+                return "description";
+        }
+        return "";
+    }
+
+    /**
+     * Returns the value for the cell at <code>columnIndex</code> and
+     * <code>rowIndex</code>.
+     *
+     * @param rowIndex    the row whose value is to be queried
+     * @param columnIndex the column whose value is to be queried
+     * @return the value Object at the specified cell
+     */
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex) {
+        Account account = this.accounts.get(rowIndex);
+        switch (columnIndex) {
+            case 0:
+                return account.getName();
+            case 1:
+                return account.getEmail();
+            case 2:
+                return account.getDescription();
+        }
+        return "";
+    }
+
+    @Override
+    public Class<?> getColumnClass(int columnIndex) {
+        return String.class;
+    }
+
+    public void addAccount(Account account) {
+        this.accounts.add(account);
+        this.fireTableDataChanged();
+    }
+
+
+
+}
+
+
+    /*
+    /**
+     * Returns the number of rows in the model. A
+     * <code>JTable</code> uses this method to determine how many rows it
+     * should display.  This method should be quick, as it
+     * is called frequently during rendering.
+     * @return the number of rows in the model
+     * @see #getColumnCount
+     */
+    /*
+    @Override
+    public int getRowCount() {
+        return this.accounts.size();
+    }
+
+    /**
+     * Returns the number of columns in the model. A
+     * <code>JTable</code> uses this method to determine how many columns it
+     * should create and display by default.
+     * @return the number of columns in the model
+     * @see #getRowCount
+     */
+    /*
+    @Override
+    public int getColumnCount() {
+        return 3;
+    }
+
+    /**
+     * Returns the name of the column at <code>columnIndex</code>.  This is used
+     * to initialize the table's column header name.  Note: this name does
+     * not need to be unique; two columns in a table can have the same name.
+     * @param columnIndex the index of the column
+     * @return the name of the column
+     */
+    /*
     @Override
     public String getColumnName(int columnIndex) {
         switch (columnIndex) {
@@ -71,6 +176,7 @@ public class AccountTableModel implements TableModel {
      * @param columnIndex the index of the column
      * @return the common ancestor class of the object values in the model.
      */
+    /*
     @Override
     public Class<?> getColumnClass(int columnIndex) {
         return String.class;
@@ -86,6 +192,7 @@ public class AccountTableModel implements TableModel {
      * @return true if the cell is editable
      * @see #setValueAt
      */
+    /*
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         return false;
@@ -98,6 +205,7 @@ public class AccountTableModel implements TableModel {
      * @param columnIndex the column whose value is to be queried
      * @return the value Object at the specified cell
      */
+    /*
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Account account = this.accounts.get(rowIndex);
@@ -121,6 +229,7 @@ public class AccountTableModel implements TableModel {
      * @see #getValueAt
      * @see #isCellEditable
      */
+    /*
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
 
@@ -131,6 +240,7 @@ public class AccountTableModel implements TableModel {
      * to the data model occurs.
      * @param l the TableModelListener
      */
+    /*
     @Override
     public void addTableModelListener(TableModelListener l) {
 
@@ -141,8 +251,14 @@ public class AccountTableModel implements TableModel {
      * change to the data model occurs.
      * @param l the TableModelListener
      */
+    /*
     @Override
     public void removeTableModelListener(TableModelListener l) {
 
     }
-}
+
+/*
+    public void addAccount(Account account) {
+        this.accounts.add(account);
+
+    }*/

@@ -1,10 +1,11 @@
 package com.adidyk;
 
+import com.adidyk.frame.FrameAccount;
+import javax.swing.*;
+
 /**
  * Class StartUi. Start project.
  */
-@SpringBootApplication
-@EnableAspectJAutoProxy
 public class StartUi {
 
      /**
@@ -12,8 +13,10 @@ public class StartUi {
      * @param arg - arg.
      */
     public  static void main(String[] arg) {
-            System.out.println("Hello word !!!");
-
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            JFrame.setDefaultLookAndFeelDecorated(true);
+            new FrameAccount();
+        });
     }
 
 }
