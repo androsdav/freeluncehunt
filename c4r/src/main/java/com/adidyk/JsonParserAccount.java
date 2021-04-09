@@ -14,17 +14,16 @@ public class JsonParserAccount {
         Map<String, String> map = new HashMap<>();
         map.put("name", account.getName());
         map.put("email", account.getEmail());
-        map.put("description", account.getDescription());
         return map;
 
     }
 
-    public JSONObject getAccountJson(Account account) {
+    private JSONObject getAccountJson(Account account) {
         Map<String, String> map = this.getMap(account);
         return new JSONObject(map);
     }
 
-    public JSONArray getAccountJsonArray(List<Account> accounts) {
+    private JSONArray getAccountJsonArray(List<Account> accounts) {
         JSONArray accountJsonArray = new JSONArray();
         for (Account account : accounts) {
             accountJsonArray.add(this.getAccountJson(account));
@@ -50,7 +49,7 @@ public class JsonParserAccount {
             JSONArray array = (JSONArray) parser.parse(reader);
             for (Object o : array) {
                 JSONObject obj = (JSONObject) o;
-                accounts.add(new Account((String) obj.get("name"), (String) obj.get("email"), (String) obj.get("description")));
+                accounts.add(new Account((String) obj.get("name"), (String) obj.get("email")));
             }
         } catch (IOException | ParseException e) {
             e.printStackTrace();

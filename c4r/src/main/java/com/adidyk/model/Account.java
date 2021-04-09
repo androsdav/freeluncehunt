@@ -29,5 +29,4 @@ public class Account {
      */
     String email;
 
-    String description;
 }

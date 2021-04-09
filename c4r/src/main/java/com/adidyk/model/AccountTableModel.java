@@ -1,10 +1,7 @@
 package com.adidyk.model;
 
 import com.adidyk.JsonParserAccount;
-
-import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.TableModel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,21 +14,22 @@ import java.util.List;
  */
 public class AccountTableModel extends AbstractTableModel {
 
-    private JsonParserAccount parser = new JsonParserAccount();
+    private JsonParserAccount parser;
 
     private List<Account> accounts = new ArrayList<>();
 
-    public AccountTableModel() {
-        this.init();
+    public AccountTableModel(JsonParserAccount parser) {
+        this.parser = parser;
+        this.getJsonFromFile();
     }
 
 
-    public AccountTableModel(List<Account> accounts) {
-        this.accounts = accounts;
-    }
-
-    public void init() {
+    private void getJsonFromFile() {
         this.accounts = this.parser.getJsonFromFile();
+    }
+
+    public void saveJsonToFile() {
+        this.parser.saveJsonToFile(this.accounts);
 
     }
 
@@ -59,7 +57,7 @@ public class AccountTableModel extends AbstractTableModel {
      */
     @Override
     public int getColumnCount() {
-        return 3;
+        return 2;
     }
 
     /**
@@ -77,8 +75,6 @@ public class AccountTableModel extends AbstractTableModel {
                 return "name";
             case 1:
                 return "email";
-            case 2:
-                return "description";
         }
         return "";
     }
@@ -99,8 +95,6 @@ public class AccountTableModel extends AbstractTableModel {
                 return account.getName();
             case 1:
                 return account.getEmail();
-            case 2:
-                return account.getDescription();
         }
         return "";
     }
