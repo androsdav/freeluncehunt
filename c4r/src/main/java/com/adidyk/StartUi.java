@@ -44,6 +44,13 @@ public class StartUi {
         System.out.println("alex27@yandex+test.com: " + emailValidator.validateEmail("alex27@yandex+test.com"));
         System.out.println("11111111: " + emailValidator.validateEmail("11111111"));
 
+
+        System.out.println("11111111: " + emailValidator.validateName("qwer"));
+        System.out.println("11111111: " + emailValidator.validateName("qwerd dasd"));
+        System.out.println("11111111: " + emailValidator.validateName("qwer dasd dasd"));
+        System.out.println("11111111: " + emailValidator.validateName("qwer dasd dasd dasd"));
+        System.out.println("11111111: " + emailValidator.validateName("qwer dasd dasd dasd dsdsd"));
+
         AccountPanel accountPanel = new AccountPanel(new AccountTableModel(new JsonParserAccount()));
         new StartUi(accountPanel).run();
 

@@ -8,12 +8,11 @@ public class AccountValidator {
     private Pattern patternName;
     private Pattern patternEmail;
     private Matcher matcher;
-    private static final String NAME_PATTERN = "(^[^\\s]){1,4}$";
-            /*
+    private static final String NAME_PATTERN =
             "(^[A-Za-z\\s]*$)|" +
             "(^[A-Za-z\\s]*\\s[A-Za-z\\s]*$)|" +
             "(^[A-Za-z\\s]*\\s[A-Za-z\\s]*\\s[A-Za-z\\s]*$)|" +
-            "(^[A-Za-z\\s]*\\s[A-Za-z\\s]*\\s[A-Za-z\\s]*\\s[A-Za-z\\s]*$)";*/
+            "(^[A-Za-z\\s]*\\s[A-Za-z\\s]*\\s[A-Za-z\\s]*\\s[A-Za-z\\s]*$)";
 
     private static final String EMAIL_PATTERN = "^[A-Za-z]+[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
