@@ -9,14 +9,14 @@ import java.awt.event.ActionListener;
 
 public class AccountPanel extends JPanel {
 
-    private EmailValidator emailValidator = new EmailValidator();
+    private AccountValidator accountValidator = new AccountValidator();
 
     private AccountTableModel accountTableModel;
 
     private JTable accountTable;
 
 
-    Action action = new AccountPanelAction();
+
 
 
     private JTextField nameField = new JTextField(20);
@@ -25,7 +25,11 @@ public class AccountPanel extends JPanel {
     private JLabel nameLabel = new JLabel("name");
     private JLabel emailLabel = new JLabel("email");
 
+
+    Action action = new AccountPanelAction();
+
     private JButton addButton = new JButton(action);
+
 
     public AccountPanel(AccountTableModel accountTableModel) {
         this.accountTableModel = accountTableModel;
@@ -39,6 +43,10 @@ public class AccountPanel extends JPanel {
     }
 
     public void init() {
+
+        this.addButton.setName("addButton");
+        this.addButton.setText("add");
+
         JScrollPane accountTableScrollPage = new JScrollPane(accountTable);
         accountTableScrollPage.setPreferredSize(new Dimension(400, 300));
         this.add(accountTableScrollPage, new GridBagConstraints(0, 0, 3, 1, 1, 1,
@@ -102,19 +110,22 @@ public class AccountPanel extends JPanel {
          */
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (emailValidator.validate(String.valueOf(emailField.getText()))) {
-                accountTableModel.addAccount(new Account(String.valueOf(nameField.getText()), String.valueOf(emailField.getText())));
-                for (Component component : getComponents()) {
-                    if (component instanceof JTextField) {
-                        JTextField field = (JTextField) component;
-                        field.setText("");
-                    }
-                }
-            } else {
-                System.out.println("email invalid");
-                JOptionPane.showMessageDialog(AccountPanel.this, "Inputted email invalid. Input correct email.");
-            }
+            JButton jButton = (JButton) e.getSource();
 
+            if (jButton.getName().equals("addButton")) {
+                if (accountValidator.validateEmail(String.valueOf(emailField.getText()))&& accountValidator.validateName(String.valueOf(nameField.getText()))) {
+                    accountTableModel.addAccount(new Account(String.valueOf(nameField.getText()), String.valueOf(emailField.getText())));
+                    for (Component component : getComponents()) {
+                        if (component instanceof JTextField) {
+                            JTextField field = (JTextField) component;
+                            field.setText("");
+                        }
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(AccountPanel.this, "Inputted email invalid. Input correct email.");
+                }
+
+            }
 
         }
 
