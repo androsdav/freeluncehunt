@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 /**
- * Class Account used for creates new object account.
- * name, surname, money.
+ * Class Account used for creates new object account with param: name, email.
  * @author Didyk Andrey (androsdav@gmail.com).
  * @since 06.04.2021.
  * @version 1.0.
