@@ -2,6 +2,7 @@ package com.adidyk.service;
 
 import com.adidyk.model.Account;
 import com.adidyk.repository.AccountRepository;
+import com.adidyk.repository.IAccountRepository;
 import javax.swing.table.AbstractTableModel;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class AccountTableModel extends AbstractTableModel {
     /**
      * @param accountRepository - account repository.
      */
-    private AccountRepository accountRepository;
+    private IAccountRepository accountRepository;
 
     /**
      * AccountTableModel - constructor.
