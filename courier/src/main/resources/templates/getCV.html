@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns = "http://www.w3.org/1999/xhtml"
+      xmlns:th = "http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GitHub REST API</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <script src="js/findMax.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="container">
+    <div class="row" style="margin-top:20px">
+        <div>
+            <h3>Account</h3>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>login</th>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>company</th>
+                    <th>blog</th>
+                    <th>location</th>
+                    <th>email</th>
+                    <th>bio</th>
+                    <th>twitter_username</th>
+                    <th>public_repos</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td th:text="${account.login}"></td>
+                    <td th:text="${account.id}"></td>
+                    <td th:text="${account.name}"></td>
+                    <td th:text="${account.company}"></td>
+                    <td th:text="${account.blog}"></td>
+                    <td th:text="${account.location}"></td>
+                    <td th:text="${account.email}"></td>
+                    <td th:text="${account.bio}"></td>
+                    <td th:text="${account.twitter_username}"></td>
+                    <td th:text="${account.public_repos}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <h3>Language</h3>
+            <table class="table table-striped" id="table" data-toggle="table">
+                <thead>
+                    <tr>
+                        <th data-field="name" data-sortable="true">name</th>
+                        <th data-field="value" data-sortable="true">value %</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr th:each="language : ${account.language}">
+                    <td th:text="${language.name}"></td>
+                    <td class="price" th:text="${language.value}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <h3>Repos</h3>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>html_url</th>
+                    <th>description</th>
+                    <th>language</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="repo : ${account.repos}">
+                    <td th:text="${repo.id}"></td>
+                    <td th:text="${repo.name}"></td>
+                    <td th:text="${repo.html_url}"></td>
+                    <td th:text="${repo.description}"></td>
+                    <td th:text="${repo.language}"></td>
+                </tr>
+                </tbody>
+            </table>
+            <div>
+                <div style="padding-top:10px; padding-bottom:30px">
+                    <a class="link" th:href="@{/}"> &lArr; back</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
