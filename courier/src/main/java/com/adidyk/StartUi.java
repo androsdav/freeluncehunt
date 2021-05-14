@@ -51,6 +51,8 @@ public class StartUi {
             System.out.println("customer: " + customer);
 
         }
+        Haversine haversine = new Haversine();
+        haversine.haversin();
     }
 
 }
